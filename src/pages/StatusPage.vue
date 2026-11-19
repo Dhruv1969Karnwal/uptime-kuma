@@ -1535,10 +1535,10 @@ h1 {
     width: 300px;
     height: 100vh;
 
-    border-right: 1px solid #ededed;
+    border-right: 1px solid var(--k-line);
 
     .danger-zone {
-        border-top: 1px solid #ededed;
+        border-top: 1px solid var(--k-line);
         padding-top: 15px;
     }
 
@@ -1550,8 +1550,8 @@ h1 {
     }
 
     .sidebar-footer {
-        border-top: 1px solid #ededed;
-        border-right: 1px solid #ededed;
+        border-top: 1px solid var(--k-line);
+        border-right: 1px solid var(--k-line);
         padding: 10px;
         width: 300px;
         height: 70px;
@@ -1692,7 +1692,7 @@ footer {
 }
 
 .dark .shadow-box {
-    background-color: #0d1117;
+    background-color: var(--k-surface);
 }
 
 .status-maintenance {
@@ -1741,7 +1741,7 @@ footer {
             outline: none;
 
             &::placeholder {
-                color: #1d2634;
+                color: var(--k-line);
             }
         }
     }

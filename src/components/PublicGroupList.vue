@@ -302,9 +302,9 @@ export default {
          */
         certExpiryColor(monitor) {
             if (monitor?.element?.validCert && monitor.element.certExpiryDaysRemaining > 7) {
-                return "#059669";
+                return "var(--k-up-mark)";
             }
-            return "#DC2626";
+            return "var(--k-down-mark)";
         },
 
         /**
@@ -353,7 +353,7 @@ export default {
 }
 
 .btn-link {
-    color: #bbbbbb;
+    color: var(--k-ink-muted);
     margin-left: 5px;
 }
 
@@ -370,7 +370,7 @@ export default {
 }
 
 .drag {
-    color: #bbb;
+    color: var(--k-ink-muted);
     cursor: grab;
 }
 
@@ -392,7 +392,7 @@ export default {
 
 .chevron {
     font-size: 0.8em;
-    color: #bbb;
+    color: var(--k-ink-muted);
     transition: all 0.2s $easing-in;
 
     &.collapsed {

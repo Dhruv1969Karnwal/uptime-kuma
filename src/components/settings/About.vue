@@ -75,10 +75,10 @@ export default {
 
 .frontend-version {
     font-size: 0.9em;
-    color: #cccccc;
+    color: var(--k-ink-muted);
 
     .dark & {
-        color: #333333;
+        color: var(--k-line-strong);
     }
 }
 </style>
