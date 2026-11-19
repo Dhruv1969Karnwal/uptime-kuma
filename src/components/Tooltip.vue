@@ -171,17 +171,17 @@ export default {
         }
 
         .tooltip-time {
-            color: #d1d5db;
-            font-size: 13px;
+            color: var(--k-tooltip-ink);
+            font-size: var(--k-t-label);
             margin-bottom: 2px;
         }
 
         .tooltip-message {
-            color: #f3f4f6;
-            font-size: 12px;
+            color: var(--k-tooltip-muted);
+            font-size: var(--k-t-label);
             margin-top: 4px;
             padding-top: 4px;
-            border-top: 1px solid rgba(75, 85, 99, 0.3);
+            border-top: 1px solid var(--k-tooltip-line);
         }
     }
 

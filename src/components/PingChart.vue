@@ -93,6 +93,8 @@ export default {
             return {
                 responsive: true,
                 maintainAspectRatio: false,
+                // A chart stays still: no entrance or easing animation.
+                animation: false,
                 onResize: (chart) => {
                     chart.canvas.parentNode.style.position = "relative";
                     if (screen.width < 576) {

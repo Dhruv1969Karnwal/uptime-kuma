@@ -5,36 +5,30 @@
                 {{ $t("Quick Stats") }}
             </h1>
 
-            <div class="shadow-box big-padding text-center mb-3">
-                <div class="row">
-                    <div class="col">
-                        <h3>{{ $t("Up") }}</h3>
-                        <span class="num" :class="$root.stats.up === 0 && 'text-secondary'">
-                            {{ $root.stats.up }}
-                        </span>
-                    </div>
-                    <div class="col">
-                        <h3>{{ $t("Down") }}</h3>
-                        <span class="num" :class="$root.stats.down > 0 ? 'text-danger' : 'text-secondary'">
-                            {{ $root.stats.down }}
-                        </span>
-                    </div>
-                    <div class="col">
-                        <h3>{{ $t("Maintenance") }}</h3>
-                        <span class="num" :class="$root.stats.maintenance > 0 ? 'text-maintenance' : 'text-secondary'">
-                            {{ $root.stats.maintenance }}
-                        </span>
-                    </div>
-                    <div class="col">
-                        <h3>{{ $t("Unknown") }}</h3>
-                        <span class="num text-secondary">{{ $root.stats.unknown }}</span>
-                    </div>
-                    <div class="col">
-                        <h3>{{ $t("pauseDashboardHome") }}</h3>
-                        <span class="num text-secondary">{{ $root.stats.pause }}</span>
-                    </div>
+            <dl class="shadow-box big-padding kuma-stats">
+                <div class="kuma-stat-cell">
+                    <dt>{{ $t("Up") }}</dt>
+                    <dd class="kuma-stat is-up"><span class="kuma-stat-mark" aria-hidden="true"></span>{{ $root.stats.up }}</dd>
                 </div>
-            </div>
+                <div class="kuma-stat-cell">
+                    <dt>{{ $t("Down") }}</dt>
+                    <dd class="kuma-stat is-down"><span class="kuma-stat-mark" aria-hidden="true"></span>{{ $root.stats.down }}</dd>
+                </div>
+                <div class="kuma-stat-cell">
+                    <dt>{{ $t("Maintenance") }}</dt>
+                    <dd class="kuma-stat is-maintenance">
+                        <span class="kuma-stat-mark" aria-hidden="true"></span>{{ $root.stats.maintenance }}
+                    </dd>
+                </div>
+                <div class="kuma-stat-cell">
+                    <dt>{{ $t("Unknown") }}</dt>
+                    <dd class="kuma-stat is-neutral"><span class="kuma-stat-mark" aria-hidden="true"></span>{{ $root.stats.unknown }}</dd>
+                </div>
+                <div class="kuma-stat-cell">
+                    <dt>{{ $t("pauseDashboardHome") }}</dt>
+                    <dd class="kuma-stat is-neutral"><span class="kuma-stat-mark" aria-hidden="true"></span>{{ $root.stats.pause }}</dd>
+                </div>
+            </dl>
 
             <div class="shadow-box table-shadow-box table-wrapper">
                 <div class="mb-3 text-end">
@@ -308,24 +302,60 @@ export default {
 <style lang="scss" scoped>
 @import "../assets/vars";
 
-.num {
-    font-size: 30px;
-    color: $primary;
-    font-weight: bold;
-    display: block;
+.kuma-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(104px, 1fr));
+    gap: var(--k-s-4);
+    margin-bottom: var(--k-s-5);
 }
 
-.shadow-box {
-    padding: 20px;
+.kuma-stat-cell {
+    min-width: 0;
+
+    dt {
+        min-width: 0;
+        overflow-wrap: anywhere;
+        font-size: var(--k-t-label);
+        font-weight: var(--k-weight-medium);
+        color: var(--k-ink-muted);
+    }
+}
+
+// The number never carries the state by colour alone: every cell shows its mark.
+.kuma-stat {
+    display: flex;
+    align-items: center;
+    gap: var(--k-s-2);
+    margin-top: var(--k-s-1);
+    font-family: var(--k-font-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: clamp(1.375rem, 0.9vw + 1.125rem, 1.625rem);
+    font-weight: var(--k-weight-medium);
+    line-height: 1.2;
+    color: var(--k-ink);
+}
+
+.kuma-stat-mark {
+    width: 8px;
+    height: 8px;
+    flex: none;
+    border-radius: var(--k-r-pill);
+    background-color: var(--k-line-strong);
+}
+
+.kuma-stat.is-up .kuma-stat-mark {
+    background-color: var(--k-up-mark);
+}
+
+.kuma-stat.is-down .kuma-stat-mark {
+    background-color: var(--k-down-mark);
+}
+
+.kuma-stat.is-maintenance .kuma-stat-mark {
+    background-color: var(--k-maint-mark);
 }
 
 table {
-    font-size: 14px;
-
-    tr {
-        transition: all ease-in-out 0.2ms;
-    }
-
     @media (max-width: 550px) {
         table-layout: fixed;
         overflow-wrap: break-word;

@@ -329,12 +329,12 @@ export default {
 
 .simple-status {
     min-width: 64px;
-    border: 1px solid #d1d5db;
+    border: 1px solid var(--k-line);
     background-color: transparent !important;
     color: inherit !important;
 
     .dark & {
-        border-color: #6b7280;
+        border-color: var(--k-line-strong);
     }
 }
 
@@ -364,10 +364,10 @@ export default {
 
 .dropdown-divider {
     margin: 0.5rem 0;
-    border-top: 1px solid #d1d5db;
+    border-top: 1px solid var(--k-line);
 
     .dark & {
-        border-top-color: #6b7280;
+        border-top-color: var(--k-line-strong);
     }
 }
 
@@ -379,12 +379,12 @@ export default {
     &.running,
     &.paused {
         background-color: white !important;
-        border: 1px solid #d1d5db;
+        border: 1px solid var(--k-line);
         color: inherit;
 
         .dark & {
             background-color: transparent !important;
-            border-color: #6b7280;
+            border-color: var(--k-line-strong);
             color: $dark-font-color;
         }
 
