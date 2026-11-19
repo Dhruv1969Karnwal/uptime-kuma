@@ -1,210 +1,964 @@
+// =============================================================================
+// Global stylesheet.
+//
+// Order matters: vars.scss (SCSS source of truth) -> third-party -> Bootstrap
+// (compiled with those values) -> tokens.scss (runtime custom properties, which
+// must land after Bootstrap to re-point --bs-*) -> motion.scss -> component
+// rules. Theme switching is a class on <body> (mixins/theme.js): the light values
+// live on :root, the dark ones on body.dark, both in tokens.scss.
+//
+// Rules of the house, kept deliberately: no new hex colours here (use --k-*), no
+// second radius or spacing scale, no blurred shadow at rest, and no per-component
+// dark-mode override blocks any more - a component that consumes tokens themes
+// itself.
+// =============================================================================
+
 @import "vars.scss";
 @import "multiselect.scss";
 @import "node_modules/bootstrap/scss/bootstrap";
+@import "tokens.scss";
+@import "motion.scss";
 
-#app {
-    font-family:
-        "Twemoji Country Flags",
-        BlinkMacSystemFont,
-        segoe ui,
-        Roboto,
-        helvetica neue,
-        Arial,
-        noto sans,
-        sans-serif,
-        apple color emoji,
-        segoe ui emoji,
-        segoe ui symbol,
-        noto color emoji;
+// ------------------------------------------------------------------------ base
+body {
+    font-family: var(--k-font-ui);
+    font-size: var(--k-t-body);
+    font-weight: var(--k-weight-regular);
+    line-height: 1.5;
+    background-color: var(--k-bg);
+    color: var(--k-ink);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
 
-h1 {
-    font-size: 32px;
+h1,
+.h1 {
+    font-size: clamp(1.875rem, 1.1vw + 1.5rem, var(--k-t-h1));
+    font-weight: var(--k-weight-medium);
+    letter-spacing: var(--k-tracking-head);
+    line-height: 1.18;
+    margin-bottom: var(--k-s-4);
 }
 
-h2 {
-    font-size: 26px;
+h2,
+.h2 {
+    font-size: clamp(1.5rem, 0.7vw + 1.35rem, var(--k-t-h2));
+    font-weight: var(--k-weight-medium);
+    letter-spacing: var(--k-tracking-head);
+    line-height: 1.2;
+    margin-bottom: var(--k-s-3);
+}
+
+h3,
+.h3 {
+    font-size: var(--k-t-h3);
+    font-weight: var(--k-weight-medium);
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+}
+
+h4,
+.h4,
+h5,
+.h5 {
+    font-size: var(--k-t-lead);
+    font-weight: var(--k-weight-medium);
+    line-height: 1.3;
+}
+
+// Anything numeric you compare across rows lines up: tabular figures, mono.
+.num,
+.mono,
+code,
+kbd,
+samp,
+pre,
+.url,
+.time,
+datetime {
+    font-family: var(--k-font-mono);
+    font-variant-numeric: tabular-nums;
+}
+
+pre,
+code {
+    font-size: var(--k-t-small);
+    color: var(--k-ink);
+    background-color: var(--k-surface-sunken);
+    border-radius: var(--k-r-sm);
+}
+
+mark,
+.mark {
+    padding: 0 0.25em;
+    color: var(--k-ink);
+    background-color: var(--k-warn-tint);
+    border-radius: var(--k-r-sm);
+}
+
+::selection {
+    background-color: var(--k-accent);
+    color: var(--k-on-accent);
+}
+
+// Links take the theme-aware accent. Bootstrap compiles $link-color into a
+// literal, which would otherwise stay the light green on the dark ground (3.3:1).
+a {
+    color: var(--k-accent-strong);
+
+    &:hover {
+        color: var(--k-ink);
+    }
+}
+
+hr {
+    margin: var(--k-s-5) 0;
+    opacity: 1;
+    border: 0;
+    border-top: 1px solid var(--k-line);
+}
+
+// Scrollbar: one hairline-wide, ink-based thumb in both themes.
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--k-line-strong);
+    border: 3px solid transparent;
+    background-clip: content-box;
+    border-radius: var(--k-r-pill);
+}
+
+// Small shared label style (13 / 500, never uppercase, never tracked).
+.kuma-label {
+    font-size: var(--k-t-label);
+    font-weight: var(--k-weight-medium);
+    color: var(--k-ink-muted);
+}
+
+// ------------------------------------------------------------------- surfaces
+// A panel is a surface with a hairline: no blurred shadow at rest, one radius,
+// even padding. `.shadow-box` keeps its name because 30+ templates use it.
+.shadow-box {
+    padding: var(--k-s-5);
+    background-color: var(--k-surface);
+    border: 1px solid var(--k-line);
+    border-radius: var(--k-r-lg);
+    box-shadow: var(--k-shadow-panel);
+
+    &.big-padding {
+        padding: var(--k-s-6);
+    }
+
+    &.p-0 {
+        padding: 0;
+    }
+}
+
+// Two boxes deep at most: a panel inside a panel loses its own box.
+.shadow-box .shadow-box:not(.keep-box) {
+    padding: var(--k-s-4);
+    background-color: var(--k-surface-sunken);
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.table-shadow-box {
+    padding: 0;
+    overflow: hidden;
+}
+
+.text-muted {
+    color: var(--k-ink-muted) !important;
+}
+
+// --------------------------------------------------------------------- buttons
+// One filled action per view, one secondary style, text links for everything
+// else. Height matches the row height so a button never sits smaller than the
+// thing it acts on.
+.btn {
+    min-height: var(--k-row-h);
+    padding: var(--k-s-2) var(--k-s-4);
+    font-size: var(--k-t-body);
+    font-weight: var(--k-weight-medium);
+    border-radius: var(--k-r-md);
+    text-decoration: none;
+}
+
+.btn-sm {
+    min-height: 36px;
+    padding: var(--k-s-1) var(--k-s-3);
+    font-size: var(--k-t-small);
+    border-radius: var(--k-r-md);
+}
+
+// Primary is Kuma green: the label is always the dark ink, in both themes.
+.btn-primary {
+    color: var(--k-on-accent);
+    background-color: var(--k-accent);
+    border-color: var(--k-accent);
+
+    &:hover,
+    &:focus,
+    &:active,
+    &.active,
+    &.disabled,
+    &:disabled {
+        color: var(--k-on-accent);
+        background-color: var(--k-accent-hover);
+        border-color: var(--k-accent-hover);
+    }
+
+    .show > & {
+        color: var(--k-on-accent);
+        background-color: var(--k-accent-hover);
+        border-color: var(--k-accent-hover);
+    }
+}
+
+// Bootstrap's own success/info variants are used as "save" style buttons in the
+// dialogs; map them onto the same pair so there is exactly one filled look.
+.btn-success {
+    color: var(--k-on-accent);
+    background-color: var(--k-accent);
+    border-color: var(--k-accent);
+
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+        color: var(--k-on-accent);
+        background-color: var(--k-accent-hover);
+        border-color: var(--k-accent-hover);
+    }
+}
+
+.btn-secondary,
+.btn-normal {
+    color: var(--k-ink);
+    background-color: var(--k-surface-sunken);
+    border-color: var(--k-line-strong);
+
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+        color: var(--k-ink);
+        background-color: var(--k-surface-hover);
+        border-color: var(--k-line-strong);
+    }
+}
+
+.btn-warning {
+    color: var(--k-ink);
+    background-color: var(--k-warn-mark);
+    border-color: var(--k-warn-mark);
+
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+        color: var(--k-ink);
+        background-color: color-mix(in srgb, var(--k-warn-mark) 88%, var(--k-ink));
+        border-color: color-mix(in srgb, var(--k-warn-mark) 88%, var(--k-ink));
+    }
+}
+
+.btn-outline-primary {
+    color: var(--k-accent-strong);
+    border-color: var(--k-line-strong);
+    background-color: transparent;
+
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+        color: var(--k-on-accent);
+        background-color: var(--k-accent);
+        border-color: var(--k-accent);
+    }
+}
+
+.btn-outline-danger {
+    color: var(--k-down);
+    border-color: color-mix(in srgb, var(--k-down-mark) 45%, transparent);
+    background-color: transparent;
+
+    &:hover,
+    &:focus,
+    &:active {
+        color: #fff;
+        background-color: var(--k-down-mark);
+        border-color: var(--k-down-mark);
+    }
+}
+
+.btn-outline-secondary {
+    color: var(--k-ink);
+    border-color: var(--k-line-strong);
+    background-color: transparent;
+
+    &:hover,
+    &:focus,
+    &:active {
+        color: var(--k-ink);
+        background-color: var(--k-surface-hover);
+        border-color: var(--k-line-strong);
+    }
+}
+
+// Kuma's own neutral button pair, kept for the templates that use them.
+.btn-outline-normal {
+    padding: var(--k-s-1) var(--k-s-3);
+    min-height: 36px;
+    color: var(--k-ink);
+    background-color: transparent;
+    border: 1px solid var(--k-line-strong);
+    border-radius: var(--k-r-md);
+
+    &:hover,
+    &:focus,
+    &.active {
+        color: var(--k-ink);
+        background-color: var(--k-surface-hover);
+        border-color: var(--k-line-strong);
+    }
+}
+
+.btn-link {
+    min-height: var(--k-row-h);
+    color: var(--k-accent-strong);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+}
+
+.btn-close {
+    color: transparent;
+    background-color: transparent;
+    border-radius: var(--k-r-sm);
+
+    &::before {
+        content: "\00d7";
+        color: var(--k-ink-muted);
+        font-size: 1.25rem;
+        line-height: 1;
+    }
+
+    &:hover::before {
+        color: var(--k-ink);
+    }
+}
+
+// ----------------------------------------------------------------------- forms
+// Labels above every field, controls at least as tall as a row, errors under the
+// field they belong to.
+.form-label,
+label {
+    margin-bottom: var(--k-s-2);
+    font-size: var(--k-t-small);
+    font-weight: var(--k-weight-medium);
+    color: var(--k-ink);
+}
+
+.form-text {
+    margin-top: var(--k-s-1);
+    font-size: var(--k-t-small);
+    color: var(--k-ink-muted);
+}
+
+.form-control,
+.form-select {
+    min-height: var(--k-row-h);
+    padding: var(--k-s-2) var(--k-s-3);
+    font-size: var(--k-t-body);
+    color: var(--k-ink);
+    background-color: var(--k-surface);
+    border: 1px solid var(--k-line-strong);
+    border-radius: var(--k-r-md);
+    transition:
+        border-color var(--k-dur-in) var(--k-ease),
+        background-color var(--k-dur-in) var(--k-ease);
+
+    &::placeholder {
+        color: var(--k-ink-muted);
+        opacity: 1;
+    }
+
+    &:hover:not(:disabled):not(:read-only) {
+        border-color: color-mix(in srgb, var(--k-ink) 34%, transparent);
+    }
+
+    &:disabled,
+    &[readonly] {
+        color: var(--k-ink-muted);
+        background-color: var(--k-surface-sunken);
+        opacity: 1;
+    }
 }
 
 textarea.form-control {
-    border-radius: 19px;
+    min-height: 120px;
+    border-radius: var(--k-r-md);
 }
 
-::-webkit-scrollbar {
-    width: 10px;
+.form-select {
+    background-image: escape-svg(url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='#5b6167' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m4 6 4 4 4-4'/></svg>"));
+    background-size: 16px 16px;
+    padding-right: 2.25rem;
 }
 
-.bg-maintenance {
-    color: white !important;
-    background-color: $maintenance !important;
+.input-group-text {
+    color: var(--k-ink-muted);
+    background-color: var(--k-surface-sunken);
+    border: 1px solid var(--k-line-strong);
+    border-radius: var(--k-r-md);
 }
 
-.bg-dark {
-    color: white;
+// Checkboxes and radios are 16px glyphs; their hit area is the label row.
+.form-check {
+    min-height: 36px;
+    padding-top: var(--k-s-1);
+}
+
+.form-check-input {
+    width: 18px;
+    height: 18px;
+    margin-top: 0.25rem;
+    background-color: var(--k-surface);
+    border: 1px solid var(--k-line-strong);
+
+    &:checked {
+        background-color: var(--k-accent-strong);
+        border-color: var(--k-accent-strong);
+    }
+}
+
+.form-check-label {
+    min-height: 36px;
+    padding-top: var(--k-s-1);
+    font-size: var(--k-t-body);
+    font-weight: var(--k-weight-regular);
+    color: var(--k-ink);
+}
+
+.invalid-feedback,
+.field-error {
+    display: block;
+    margin-top: var(--k-s-1);
+    font-size: var(--k-t-small);
+    color: var(--k-down);
+}
+
+.form-control.is-invalid,
+.was-validated .form-control:invalid {
+    border-color: var(--k-down-mark);
+}
+
+optgroup {
+    color: var(--k-ink-muted);
+    background-color: var(--k-surface);
+
+    option {
+        color: var(--k-ink);
+    }
+}
+
+// --------------------------------------------------------------------- status
+// Every state is word + mark + tint, so the hue is never the only signal. These
+// keep their Bootstrap class names (templates and the e2e suite assert them).
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--k-s-1);
+    padding: 0.1875rem 0.5rem;
+    font-family: var(--k-font-mono);
+    font-size: var(--k-t-label);
+    font-weight: var(--k-weight-medium);
+    line-height: 1.4;
+    letter-spacing: 0;
+    border-radius: var(--k-r-pill);
+}
+
+.badge::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    flex: none;
+    border-radius: var(--k-r-pill);
+    background-color: currentcolor;
+}
+
+.badge.bg-primary,
+.badge.text-bg-primary,
+.badge.bg-success,
+.badge.text-success {
+    color: var(--k-up) !important;
+    background-color: var(--k-up-tint) !important;
+}
+
+.badge.bg-danger,
+.badge.text-bg-danger,
+.badge.text-danger {
+    color: var(--k-down) !important;
+    background-color: var(--k-down-tint) !important;
+}
+
+.badge.bg-warning,
+.badge.text-bg-warning,
+.badge.text-warning {
+    color: var(--k-warn) !important;
+    background-color: var(--k-warn-tint) !important;
+}
+
+.badge.bg-maintenance,
+.badge.bg-info,
+.badge.text-bg-info,
+.badge.text-info {
+    color: var(--k-maint) !important;
+    background-color: var(--k-maint-tint) !important;
+}
+
+.badge.bg-secondary,
+.badge.bg-light,
+.badge.text-secondary {
+    color: var(--k-ink-muted) !important;
+    background-color: var(--k-neutral-tint) !important;
+}
+
+.badge.bg-dark {
+    color: var(--k-ink) !important;
+    background-color: var(--k-neutral-tint) !important;
+}
+
+// A badge that must stay a solid block (the uptime pill on a dark photo-free row)
+// is opted in explicitly.
+.badge.badge--solid {
+    color: var(--k-on-accent) !important;
+    background-color: var(--k-accent) !important;
+}
+
+.text-primary {
+    color: var(--k-up) !important;
+}
+
+.text-danger {
+    color: var(--k-down) !important;
+}
+
+.text-warning {
+    color: var(--k-warn) !important;
 }
 
 .text-maintenance {
-    color: $maintenance !important;
+    color: var(--k-maint) !important;
 }
 
+.bg-maintenance {
+    color: var(--k-ink) !important;
+    background-color: var(--k-maint-tint) !important;
+    border: 1px solid color-mix(in srgb, var(--k-maint-mark) 40%, transparent);
+}
+
+.bg-dark {
+    color: var(--k-ink) !important;
+    background-color: var(--k-surface-sunken) !important;
+}
+
+.bg-body {
+    background-color: var(--k-surface) !important;
+}
+
+.bg-light {
+    background-color: var(--k-surface-sunken) !important;
+}
+
+// ---------------------------------------------------------------------- tables
+// 44px rows, name at the left line, numbers right-aligned in tabular figures, and
+// one hairline closing each row - none above the first.
+.table {
+    font-size: var(--k-t-body);
+    color: var(--k-ink);
+    margin-bottom: 0;
+
+    > thead th,
+    > thead td {
+        padding: var(--k-s-3) var(--k-s-4);
+        font-size: var(--k-t-label);
+        font-weight: var(--k-weight-medium);
+        color: var(--k-ink-muted);
+        vertical-align: bottom;
+        background-color: transparent;
+        border-bottom: 1px solid var(--k-line);
+    }
+
+    > tbody > tr > td,
+    > tbody > tr > th {
+        padding: var(--k-s-3) var(--k-s-4);
+        vertical-align: middle;
+        border-bottom: 1px solid var(--k-line);
+    }
+
+    > tbody > tr:last-child > td,
+    > tbody > tr:last-child > th {
+        border-bottom: 0;
+    }
+
+    td.num,
+    td.time,
+    th.num {
+        text-align: right;
+        font-family: var(--k-font-mono);
+        font-variant-numeric: tabular-nums;
+    }
+}
+
+.table-bordered > :not(caption) > * > * {
+    border-width: 0 0 1px;
+    border-color: var(--k-line);
+}
+
+.table-hover > tbody > tr:hover > * {
+    color: var(--k-ink);
+    background-color: var(--k-surface-hover);
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+    color: var(--k-ink);
+    background-color: transparent;
+    box-shadow: none;
+}
+
+// ---------------------------------------------------------------- monitor list
+.monitor-list {
+    &.scrollbar {
+        overflow-y: auto;
+        scrollbar-gutter: stable;
+    }
+
+    .item {
+        display: block;
+        min-height: var(--k-row-h);
+        padding: var(--k-s-3) var(--k-s-4);
+        color: var(--k-ink);
+        text-decoration: none;
+        border-radius: var(--k-r-md);
+
+        &.disabled {
+            opacity: 0.45;
+
+            .text-truncate {
+                color: var(--k-ink-muted);
+            }
+        }
+
+        .info {
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        &:hover {
+            background-color: var(--k-surface-hover);
+        }
+
+        &.active {
+            background-color: var(--k-surface-active);
+            box-shadow: inset 2px 0 0 var(--k-accent-strong);
+        }
+
+        .tags {
+            // Aligns the tag row with the uptime pill
+            margin-left: calc(var(--k-s-1) * -1);
+        }
+    }
+}
+
+.list-group {
+    border-radius: var(--k-r-lg);
+
+    .list-group-item {
+        padding: var(--k-s-3) var(--k-s-4);
+        color: var(--k-ink);
+        background-color: var(--k-surface);
+        border-color: var(--k-line);
+    }
+
+    .list-group-item.active {
+        color: var(--k-on-accent);
+        background-color: var(--k-accent);
+        border-color: var(--k-accent);
+    }
+}
+
+// ----------------------------------------------------------- stats and numbers
+.kuma-stat {
+    display: block;
+    font-family: var(--k-font-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: clamp(1.5rem, 0.9vw + 1.25rem, 1.75rem);
+    font-weight: var(--k-weight-medium);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+}
+
+// ------------------------------------------------------------------- overlays
+.modal {
+    backdrop-filter: none;
+}
+
+.modal-content {
+    color: var(--k-ink);
+    background-color: var(--k-surface);
+    border: 1px solid var(--k-line-strong);
+    border-radius: var(--k-r-lg);
+    box-shadow: var(--k-shadow-pop);
+}
+
+.modal-header,
+.modal-footer {
+    border-color: var(--k-line);
+}
+
+.modal-title {
+    font-size: var(--k-t-lead);
+    font-weight: var(--k-weight-medium);
+    letter-spacing: -0.01em;
+}
+
+.dropdown-menu {
+    padding: var(--k-s-1);
+    color: var(--k-ink);
+    background-color: var(--k-surface);
+    border: 1px solid var(--k-line-strong);
+    border-radius: var(--k-r-md);
+    box-shadow: var(--k-shadow-pop);
+}
+
+.dropdown-item {
+    min-height: 36px;
+    padding: var(--k-s-2) var(--k-s-3);
+    font-size: var(--k-t-body);
+    color: var(--k-ink);
+    border-radius: var(--k-r-sm);
+
+    &:hover,
+    &:focus {
+        color: var(--k-ink);
+        background-color: var(--k-surface-hover);
+    }
+
+    &.active,
+    &:active {
+        color: var(--k-ink);
+        background-color: var(--k-surface-active);
+    }
+
+    &.text-danger {
+        color: var(--k-down) !important;
+    }
+}
+
+.dropdown-divider {
+    border-color: var(--k-line);
+}
+
+.alert {
+    padding: var(--k-s-4);
+    font-size: var(--k-t-body);
+    border-radius: var(--k-r-lg);
+    border-width: 1px;
+}
+
+.alert-success {
+    color: var(--k-up);
+    background-color: var(--k-up-tint);
+    border-color: color-mix(in srgb, var(--k-up-mark) 34%, transparent);
+}
+
+.alert-danger {
+    color: var(--k-down);
+    background-color: var(--k-down-tint);
+    border-color: color-mix(in srgb, var(--k-down-mark) 34%, transparent);
+}
+
+.alert-warning {
+    color: var(--k-warn);
+    background-color: var(--k-warn-tint);
+    border-color: color-mix(in srgb, var(--k-warn-mark) 34%, transparent);
+}
+
+.alert-info {
+    color: var(--k-maint);
+    background-color: var(--k-maint-tint);
+    border-color: color-mix(in srgb, var(--k-maint-mark) 34%, transparent);
+}
+
+.toast-container {
+    z-index: 1090;
+}
+
+.Vue-Toastification__toast {
+    min-height: var(--k-row-h);
+    padding: var(--k-s-3) var(--k-s-4);
+    font-family: var(--k-font-ui);
+    font-size: var(--k-t-body);
+    line-height: 1.4;
+    border: 1px solid transparent;
+    border-radius: var(--k-r-md);
+    box-shadow: var(--k-shadow-pop);
+}
+
+.Vue-Toastification__toast--success {
+    color: var(--k-up);
+    background-color: var(--k-up-tint);
+    border-color: color-mix(in srgb, var(--k-up-mark) 40%, transparent);
+}
+
+.Vue-Toastification__toast--error {
+    color: var(--k-down);
+    background-color: var(--k-down-tint);
+    border-color: color-mix(in srgb, var(--k-down-mark) 40%, transparent);
+}
+
+.Vue-Toastification__toast--info,
+.Vue-Toastification__toast--warning {
+    color: var(--k-ink);
+    background-color: var(--k-surface);
+    border-color: var(--k-line-strong);
+}
+
+.page-link {
+    min-height: var(--k-row-h);
+    color: var(--k-ink);
+    background-color: var(--k-surface);
+    border: 1px solid var(--k-line);
+    border-radius: var(--k-r-md);
+}
+
+.page-item.active .page-link {
+    color: var(--k-on-accent);
+    background-color: var(--k-accent);
+    border-color: var(--k-accent);
+}
+
+.page-item.disabled .page-link {
+    color: var(--k-ink-muted);
+    background-color: var(--k-surface-sunken);
+    border-color: var(--k-line);
+}
+
+.VuePagination__count {
+    font-size: var(--k-t-label);
+    color: var(--k-ink-muted);
+    text-align: center;
+}
+
+.progress {
+    background-color: var(--k-surface-sunken);
+    border-radius: var(--k-r-sm);
+}
+
+.spinner {
+    color: var(--k-accent-strong);
+}
+
+// ------------------------------------------------------------------ editable
+[contenteditable="true"] {
+    padding: var(--k-s-1) var(--k-s-2);
+    background-color: color-mix(in srgb, var(--k-ink) 6%, transparent);
+    border-radius: var(--k-r-sm);
+    outline-offset: 2px;
+
+    &.no-bg {
+        background-color: transparent !important;
+    }
+
+    &:hover {
+        background-color: color-mix(in srgb, var(--k-ink) 10%, transparent);
+    }
+
+    &:focus {
+        background-color: color-mix(in srgb, var(--k-ink) 8%, transparent);
+    }
+}
+
+// -------------------------------------------------------------- fixed save bar
+$shadow-box-padding: var(--k-s-5);
+
+.shadow-box-with-fixed-bottom-bar {
+    padding: $shadow-box-padding $shadow-box-padding 0;
+}
+
+.fixed-bottom-bar {
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+    margin: 0 calc(var(--k-s-5) * -1);
+    padding: var(--k-s-4);
+    background-color: var(--k-surface);
+    border-top: 1px solid var(--k-line);
+    border-radius: 0 0 var(--k-r-lg) var(--k-r-lg);
+    backdrop-filter: none;
+}
+
+// ------------------------------------------------------------------------ misc
 .incident a,
 .bg-maintenance a {
     color: inherit;
 }
 
-.list-group {
-    border-radius: 0.75rem;
-
-    .dark & {
-        .list-group-item {
-            background-color: $dark-bg;
-            color: $dark-font-color;
-            border-color: $dark-border-color;
-        }
-    }
+.settings-subheading::after {
+    content: "";
+    display: block;
+    width: 50%;
+    padding-top: var(--k-s-2);
+    border-bottom: 1px solid var(--k-line);
 }
 
-// optgroup
-optgroup {
-    color: #b1b1b1;
-    option {
-        color: #212529;
-    }
+.code-editor,
+.css-editor {
+    padding: var(--k-s-3) var(--k-s-2);
+    color: var(--k-ink);
+    background-color: var(--k-surface-sunken);
+    border: 1px solid var(--k-line-strong);
+    border-radius: var(--k-r-md);
 }
 
-.dark {
-    optgroup {
-        color: #535864;
-        option {
-            color: $dark-font-color;
-        }
-    }
+.prism-editor__textarea {
+    outline: none !important;
+    background: transparent;
+    color: inherit;
 }
 
-// Scrollbar
-::-webkit-scrollbar-thumb {
-    background: #ccc;
-    border-radius: 20px;
+.prism-editor__container .important {
+    font-weight: var(--k-weight-medium) !important;
 }
 
-.modal {
-    backdrop-filter: blur(3px);
+.vue-image-crop-upload .vicp-wrap {
+    border-radius: var(--k-r-lg) !important;
 }
 
-.modal-content {
-    border-radius: 1rem;
-    box-shadow: 0 15px 70px rgba(0, 0, 0, 0.1);
-
-    .dark & {
-        box-shadow: 0 15px 70px rgb(0 0 0);
-        background-color: $dark-bg;
-    }
+.zoom-cursor {
+    cursor: zoom-in;
 }
 
-.VuePagination__count {
-    font-size: 13px;
-    text-align: center;
+.img-fluid,
+.logo-wrapper img {
+    border-radius: var(--k-r-md);
 }
 
-.shadow-box {
-    //overflow: hidden;   // Forget why add this, but multiple select hide by this
-    box-shadow: 0 15px 70px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    border-radius: 10px;
-
-    &.big-padding {
-        padding: 20px;
-    }
-}
-
-.btn {
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
-.btn-sm {
-    border-radius: 25px;
-}
-
-.btn-primary {
-    color: white;
-
-    &:hover,
-    &:active,
-    &:focus,
-    &.active {
-        color: white;
-        background-color: $highlight;
-        border-color: $highlight;
-    }
-
-    .dark & {
-        color: $dark-font-color2;
-    }
-}
-
-.btn-normal {
-    $bg-color: #f5f5f5;
-
-    background-color: $bg-color;
-    border-color: $bg-color;
-
-    &:hover {
-        $hover-color: darken($bg-color, 3%);
-        background-color: $hover-color;
-        border-color: $hover-color;
-    }
-}
-
-.btn-warning {
-    color: white;
-
-    &:hover,
-    &:active,
-    &:focus,
-    &.active {
-        color: white;
-    }
-}
-
-.btn-info {
-    color: white;
-
-    &:hover,
-    &:active,
-    &:focus,
-    &.active {
-        color: white;
-    }
-}
-
-.btn-dark {
-    background-color: #161b22;
-}
-
-.btn-outline-normal {
-    padding: 4px 10px;
-    border: 1px solid #ced4da;
-    border-radius: 25px;
-    background-color: transparent;
-
-    .dark & {
-        color: $dark-font-color;
-        border: 1px solid $dark-font-color2;
-    }
-
-    &.active {
-        background-color: $highlight-white;
-
-        .dark & {
-            background-color: $dark-font-color2;
-        }
-    }
-}
-
+// --------------------------------------------------------- narrow-screen tables
+// Rows become labelled blocks below 550px: the header disappears, each cell gets
+// its own line, nothing scrolls sideways.
 @media (max-width: 550px) {
     .table-shadow-box {
-        padding: 10px !important;
+        padding: var(--k-s-3) !important;
 
         thead {
             display: none;
@@ -212,18 +966,18 @@ optgroup {
 
         tbody {
             .shadow-box {
-                background-color: white;
+                background-color: var(--k-surface);
             }
         }
 
         tr {
-            margin-top: 0 !important;
-            padding: 4px 10px !important;
             display: block;
-            margin-bottom: 6px;
+            margin-top: 0 !important;
+            margin-bottom: var(--k-s-3);
+            padding: var(--k-s-1) var(--k-s-3) !important;
 
             td:first-child {
-                font-weight: bold;
+                font-weight: var(--k-weight-medium);
             }
 
             td:nth-child(-n + 3) {
@@ -235,423 +989,28 @@ optgroup {
             }
 
             td {
-                border-bottom: 1px solid $dark-font-color;
                 display: block;
-                padding: 4px;
+                padding: var(--k-s-1);
+                border-bottom: 1px solid var(--k-line);
+                text-align: left;
 
                 .badge {
-                    margin: auto;
                     display: block;
-                    width: 30%;
+                    width: 40%;
+                    margin: auto;
+                    justify-content: center;
                 }
             }
-        }
-    }
-}
 
-// Dark Theme override here
-.dark {
-    background-color: #090c10;
-    color: $dark-font-color;
-
-    mark,
-    .mark {
-        background-color: #b6ad86;
-    }
-
-    &::-webkit-scrollbar-thumb,
-    ::-webkit-scrollbar-thumb {
-        background: $dark-border-color;
-    }
-
-    .shadow-box {
-        &:not(.alert) {
-            background-color: $dark-bg;
-        }
-    }
-
-    .form-check-input {
-        background-color: $dark-bg2;
-        border-color: $dark-border-color;
-    }
-
-    .input-group-text {
-        background-color: #282f39;
-        border-color: $dark-border-color;
-        color: $dark-font-color;
-    }
-
-    .form-check-input:checked {
-        border-color: $primary; // Re-apply bootstrap border
-    }
-
-    .form-switch .form-check-input {
-        background-color: #232f3b;
-    }
-
-    a:not(.btn),
-    .table,
-    .nav-link {
-        color: $dark-font-color;
-
-        &.btn-info {
-            color: white;
-        }
-    }
-
-    .incident a,
-    .bg-maintenance a {
-        color: inherit;
-    }
-
-    .form-control,
-    .form-control:focus,
-    .form-select,
-    .form-select:focus {
-        color: $dark-font-color;
-        background-color: $dark-bg2;
-    }
-
-    .form-select:disabled {
-        color: rgba($dark-font-color, 0.7);
-        background-color: $dark-bg;
-    }
-
-    .form-control,
-    .form-select {
-        border-color: $dark-border-color;
-    }
-
-    .form-control:disabled,
-    .form-control[readonly] {
-        background-color: #232f3b;
-        opacity: 1;
-    }
-
-    .table-hover > tbody > tr:hover > * {
-        --bs-table-accent-bg: #070a10;
-        color: $dark-font-color;
-    }
-
-    .nav-pills .nav-link.active,
-    .nav-pills .show > .nav-link {
-        color: $dark-font-color2;
-    }
-
-    .bg-primary {
-        color: $dark-font-color2;
-    }
-
-    .btn-secondary {
-        color: white;
-    }
-
-    .btn-normal {
-        $bg-color: $dark-header-bg;
-
-        color: $dark-font-color;
-        background-color: $bg-color;
-        border-color: $bg-color;
-
-        &:hover {
-            $hover-color: darken($bg-color, 3%);
-            background-color: $hover-color;
-            border-color: $hover-color;
-        }
-    }
-
-    .btn-warning {
-        color: $dark-font-color2;
-
-        &:hover,
-        &:active,
-        &:focus,
-        &.active {
-            color: $dark-font-color2;
-        }
-    }
-
-    .btn-close {
-        box-shadow: none;
-        filter: invert(1);
-
-        &:hover {
-            opacity: 0.6;
-        }
-    }
-
-    .modal-header {
-        border-color: $dark-bg;
-    }
-
-    .modal-footer {
-        border-color: $dark-bg;
-    }
-
-    // Pagination
-    .page-item.disabled .page-link {
-        background-color: $dark-bg;
-        border-color: $dark-border-color;
-    }
-
-    .page-link {
-        background-color: $dark-bg;
-        border-color: $dark-border-color;
-        color: $dark-font-color;
-    }
-
-    .monitor-list {
-        .item {
-            &:hover {
-                background-color: $dark-bg2;
-            }
-
-            &.active {
-                background-color: $dark-bg2;
+            td:last-child {
+                border-bottom: 0;
             }
         }
     }
 
-    @media (max-width: 550px) {
-        .table-shadow-box {
-            tbody {
-                .shadow-box {
-                    background-color: $dark-bg2;
-
-                    td {
-                        border-bottom: 1px solid $dark-border-color;
-                    }
-                }
-            }
-        }
-    }
-
-    .alert {
-        &.bg-info,
-        &.bg-warning,
-        &.bg-danger,
-        &.bg-maintenance,
-        &.bg-light {
-            color: $dark-font-color2;
-        }
-    }
-}
-
-/*
- * Transitions
- */
-
-// page-change
-.slide-fade-enter-active {
-    transition: all 0.2s $easing-in;
-}
-
-.slide-fade-leave-active {
-    transition: all 0.2s $easing-in;
-}
-
-.slide-fade-enter-from,
-.slide-fade-leave-to {
-    transform: translateY(50px);
-    opacity: 0;
-}
-
-.slide-fade-right-enter-active {
-    transition: all 0.2s $easing-in;
-}
-
-.slide-fade-right-leave-active {
-    transition: all 0.2s $easing-in;
-}
-
-.slide-fade-right-enter-from,
-.slide-fade-right-leave-to {
-    transform: translateX(50px);
-    opacity: 0;
-}
-
-.slide-fade-up-enter-active {
-    transition: all 0.2s $easing-in;
-}
-
-.slide-fade-up-leave-active {
-    transition: all 0.2s $easing-in;
-}
-
-.slide-fade-up-enter-from,
-.slide-fade-up-leave-to {
-    transform: translateY(-50px);
-    opacity: 0;
-}
-
-.monitor-list {
-    &.scrollbar {
-        overflow-y: auto;
-    }
-
-    @media (max-width: 770px) {
-        &.scrollbar {
-            height: calc(100% - 97px);
-        }
-    }
-
-    .item {
-        display: block;
-        text-decoration: none;
-        padding: 13px 15px 10px 15px;
-        border-radius: 10px;
-        transition: all ease-in-out 0.15s;
-
-        &.disabled {
-            opacity: 0.3;
-        }
-
-        .info {
-            white-space: nowrap;
-            overflow: hidden;
-        }
-
-        &:hover {
-            background-color: $highlight-white;
-        }
-
-        &.active {
-            background-color: #cdf8f4;
-        }
-        .tags {
-            // Removes margin to line up tags list with uptime percentage
-            margin-left: -0.25rem;
-        }
-    }
-}
-
-.alert-success {
-    color: #122f21;
-    background-color: $primary;
-    border-color: $primary;
-}
-
-.alert-info {
-    color: #055160;
-    background-color: #cff4fc;
-    border-color: #cff4fc;
-}
-
-.alert-danger {
-    color: #842029;
-    background-color: #f8d7da;
-    border-color: #f8d7da;
-}
-
-.btn-success {
-    color: #fff;
-    background-color: #4caf50;
-    border-color: #4caf50;
-}
-
-[contenteditable="true"] {
-    transition: all $easing-in 0.2s;
-    background-color: rgba(239, 239, 239, 0.7);
-    border-radius: 8px;
-
-    &.no-bg {
-        background-color: transparent !important;
-    }
-
-    &:focus {
-        outline: 0 solid #eee;
-        background-color: rgba(245, 245, 245, 0.9);
-    }
-
-    &:hover {
-        background-color: rgba(239, 239, 239, 0.8);
-    }
-
-    .dark & {
-        background-color: rgba(239, 239, 239, 0.2);
-    }
-
-    /*
-    &::after {
-        margin-left: 5px;
-        content: "🖊️";
-        font-size: 13px;
-        color: #eee;
-    }
-    */
-}
-
-.action {
-    transition: all $easing-in 0.2s;
-
-    &:hover {
-        cursor: pointer;
-        transform: scale(1.2);
-    }
-}
-
-.vue-image-crop-upload .vicp-wrap {
-    border-radius: 10px !important;
-}
-
-.spinner {
-    color: $primary;
-}
-
-.prism-editor__textarea {
-    outline: none !important;
-}
-
-.prism-editor__container {
-    .important {
-        font-weight: var(--bs-body-font-weight) !important;
-    }
-}
-
-h5.settings-subheading::after {
-    content: "";
-    display: block;
-    width: 50%;
-    padding-top: 8px;
-    border-bottom: 1px solid $dark-border-color;
-}
-
-/* required class */
-.code-editor,
-.css-editor {
-    /* we dont use `language-` classes anymore so that's why we need to add background and text color manually */
-
-    border-radius: 1rem;
-    padding: 10px 5px;
-    border: 1px solid #ced4da;
-
-    .dark & {
-        background: $dark-bg2;
-        border: 1px solid $dark-border-color;
-    }
-}
-
-$shadow-box-padding: 20px;
-
-.shadow-box-with-fixed-bottom-bar {
-    padding-top: $shadow-box-padding;
-    padding-bottom: 0;
-    padding-right: $shadow-box-padding;
-    padding-left: $shadow-box-padding;
-}
-
-.fixed-bottom-bar {
-    position: sticky;
-    bottom: 0;
-    margin-left: -$shadow-box-padding;
-    margin-right: -$shadow-box-padding;
-    z-index: 10;
-    background-color: rgba(white, 0.2);
-    backdrop-filter: blur(2px);
-    border-radius: 0 0 10px 10px;
-
-    .dark & {
-        background-color: rgba($dark-header-bg, 0.9);
+    // Toasts clear the mobile bottom bar
+    .toast-container {
+        margin-bottom: 126px !important;
     }
 }
 
@@ -661,16 +1020,54 @@ $shadow-box-padding: 20px;
     }
 }
 
-@media (max-width: 550px) {
-    .toast-container {
-        margin-bottom: 126px !important;
+// ---------------------------------------------------------------- localization
+
+// ---------------------------------------------------------------- corrections
+// Theme-level fixes for rules Bootstrap compiles into literals, found by measuring
+// the rendered pages rather than by reading the source.
+
+.text-dark {
+    color: var(--k-ink) !important;
+}
+
+// $nav-link-color is baked into .nav-link, so a bare nav link on the dark ground
+// resolved to the light grey (measured 2.8:1).
+.nav-link {
+    color: var(--k-ink-muted);
+
+    &:hover {
+        color: var(--k-ink);
     }
 }
 
-.zoom-cursor {
-    cursor: zoom-in;
+// Segmented radio groups (appearance settings) pair a hidden .btn-check with a
+// btn-outline-* label; the checked state is ink on brand green, which needs the
+// dark label colour.
+.btn-check:checked + .btn-outline-primary,
+.btn-check:active + .btn-outline-primary,
+.btn-outline-primary.active,
+.btn-outline-primary:active {
+    color: var(--k-on-accent);
+    background-color: var(--k-accent);
+    border-color: var(--k-accent);
 }
 
-// Localization
+// Filled destructive button: the label must clear 4.5:1 on its own ground in both
+// themes, so the ground is its own token pair instead of the status mark.
+.btn-danger {
+    color: #fff;
+    background-color: var(--k-action-danger-bg);
+    border-color: var(--k-action-danger-bg);
 
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+        color: #fff;
+        background-color: var(--k-action-danger-hover);
+        border-color: var(--k-action-danger-hover);
+    }
+}
+
+// ---------------------------------------------------------------- localization
 @import "localization.scss";
