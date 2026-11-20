@@ -409,4 +409,24 @@ export default {
 .bg-maintenance {
     background-color: $maintenance;
 }
+
+/* Names have to be readable at every width. The shared monitor-row rule sets
+   white-space: nowrap with overflow hidden, which served the dashboard rail but cut
+   service names on the public page at 320px ("Legacy Batch Node" lost 34px and
+   "edge.example.org" 24px, with no ellipsis). A status-page row wraps instead. */
+/* scoped rules need the same specificity as the shared .monitor-list .item .info rule
+   they override, otherwise the nowrap wins */
+.monitor-list .item .info {
+    overflow: visible;
+    white-space: normal;
+}
+
+.item-name,
+.item-name a {
+    overflow-wrap: anywhere;
+}
+
+.item {
+    min-height: var(--k-row-h);
+}
 </style>

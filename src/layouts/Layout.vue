@@ -412,7 +412,10 @@ main {
         justify-content: center;
         gap: 2px;
         min-height: 56px;
-        overflow: hidden;
+        // four columns at 320px are 80px wide and "Settings" needs 82, so the label
+        // wraps onto a second line rather than being cut (the bar has room for it)
+        padding-inline: 2px;
+        line-height: 1.15;
         font-size: var(--k-t-label);
         color: var(--k-ink-muted);
         text-decoration: none;
