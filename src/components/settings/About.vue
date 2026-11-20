@@ -1,8 +1,8 @@
 <template>
     <div class="d-flex justify-content-center align-items-center">
         <div class="logo d-flex flex-column justify-content-center align-items-center">
-            <object class="my-4" width="200" height="200" data="/icon.svg" />
-            <div class="fs-4 fw-bold">Uptime Kuma</div>
+            <object class="my-4" width="200" height="200" :data="$root.isDark ? '/icon-dark.svg' : '/icon.svg'" />
+            <div class="fs-4 fw-bold">Steadwatch</div>
             <div>{{ $t("versionIs", { version: $root.info.version }) }}</div>
             <div class="frontend-version">{{ $t("frontendVersionIs", { version: $root.frontendVersion }) }}</div>
 
@@ -75,10 +75,10 @@ export default {
 
 .frontend-version {
     font-size: 0.9em;
-    color: #cccccc;
+    color: var(--k-ink-muted);
 
     .dark & {
-        color: #333333;
+        color: var(--k-line-strong);
     }
 }
 </style>

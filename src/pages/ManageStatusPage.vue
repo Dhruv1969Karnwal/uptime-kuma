@@ -134,7 +134,7 @@ export default {
     }
 
     &.active {
-        background-color: #cdf8f4;
+        background-color: var(--k-surface-active);
     }
 
     $logo-width: 70px;

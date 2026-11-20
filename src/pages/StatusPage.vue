@@ -485,8 +485,7 @@
 
             <div class="mb-4">
                 <div v-if="$root.publicGroupList.length === 0 && loadedData" class="text-center">
-                    <!-- 👀 Nothing here, please add a group or a monitor. -->
-                    👀 {{ $t("statusPageNothing") }}
+                    {{ $t("statusPageNothing") }}
                 </div>
 
                 <PublicGroupList
@@ -944,7 +943,7 @@ export default {
         },
 
         "config.title"(title) {
-            document.title = title;
+            document.title = title || "Steadwatch";
         },
 
         "$root.monitorList"() {
@@ -1535,10 +1534,10 @@ h1 {
     width: 300px;
     height: 100vh;
 
-    border-right: 1px solid #ededed;
+    border-right: 1px solid var(--k-line);
 
     .danger-zone {
-        border-top: 1px solid #ededed;
+        border-top: 1px solid var(--k-line);
         padding-top: 15px;
     }
 
@@ -1550,8 +1549,8 @@ h1 {
     }
 
     .sidebar-footer {
-        border-top: 1px solid #ededed;
-        border-right: 1px solid #ededed;
+        border-top: 1px solid var(--k-line);
+        border-right: 1px solid var(--k-line);
         padding: 10px;
         width: 300px;
         height: 70px;
@@ -1692,7 +1691,7 @@ footer {
 }
 
 .dark .shadow-box {
-    background-color: #0d1117;
+    background-color: var(--k-surface);
 }
 
 .status-maintenance {
@@ -1741,7 +1740,7 @@ footer {
             outline: none;
 
             &::placeholder {
-                color: #1d2634;
+                color: var(--k-line);
             }
         }
     }

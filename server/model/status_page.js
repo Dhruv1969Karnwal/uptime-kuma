@@ -80,7 +80,7 @@ class StatusPage extends BeanModel {
         const { incidents, heartbeats, statusDescription } = await StatusPage.getRSSPageData(statusPage);
 
         // Use custom RSS title if set, otherwise fall back to status page title
-        let feedTitle = "Uptime Kuma RSS Feed";
+        let feedTitle = "Steadwatch RSS Feed";
         if (statusPage.rss_title) {
             feedTitle = statusPage.rss_title;
         } else if (statusPage.title) {
@@ -165,7 +165,7 @@ class StatusPage extends BeanModel {
             .trim()
             .substring(0, 155);
 
-        $("title").text(statusPage.title);
+        $("title").text(statusPage.title || "Steadwatch");
         $("meta[name=description]").attr("content", description155);
 
         if (statusPage.icon) {
@@ -182,7 +182,7 @@ class StatusPage extends BeanModel {
         }
 
         // OG Meta Tags
-        let ogTitle = $('<meta property="og:title" content="" />').attr("content", statusPage.title);
+        let ogTitle = $('<meta property="og:title" content="" />').attr("content", statusPage.title || "Steadwatch");
         head.append(ogTitle);
 
         let ogDescription = $('<meta property="og:description" content="" />').attr("content", description155);

@@ -127,7 +127,7 @@ router.get("/api/status-page/:slug/manifest.json", cache("1440 minutes"), async 
 
         // Response
         response.json({
-            name: statusPage.title,
+            name: statusPage.title || "Steadwatch",
             start_url: "/status/" + statusPage.slug,
             display: "standalone",
             icons: [

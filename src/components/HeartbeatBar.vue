@@ -602,14 +602,16 @@ export default {
             const centerY = this.canvasHeight / 2;
 
             // Cache CSS colors once per redraw
-            const rootStyles = getComputedStyle(document.documentElement);
-            const canvasStyles = getComputedStyle(canvas.parentElement);
+            // Read the theme off the canvas itself: the dark values live on
+            // body.dark, so documentElement would always report the light palette.
+            const cs = getComputedStyle(canvas);
+            const token = (name, fallback) => cs.getPropertyValue(name).trim() || fallback;
             const colors = {
-                empty: canvasStyles.getPropertyValue("--beat-empty-color") || "#f0f8ff",
-                down: rootStyles.getPropertyValue("--bs-danger") || "#dc3545",
-                pending: rootStyles.getPropertyValue("--bs-warning") || "#ffc107",
-                maintenance: rootStyles.getPropertyValue("--maintenance") || "#1d4ed8",
-                up: rootStyles.getPropertyValue("--bs-primary") || "#5cdd8b",
+                empty: token("--k-beat-empty", "rgba(128, 132, 138, 0.22)"),
+                down: token("--k-down-mark", "#b91c1c"),
+                pending: token("--k-warn-mark", "#d97706"),
+                maintenance: token("--k-maint-mark", "#1d4ed8"),
+                up: token("--k-up-mark", "#15803d"),
             };
 
             // Draw each beat
@@ -867,11 +869,7 @@ export default {
 }
 
 .hp-bar-big {
-    --beat-empty-color: #f0f8ff;
-
-    .dark & {
-        --beat-empty-color: #848484;
-    }
+    --beat-empty-color: var(--k-beat-empty);
 
     .heartbeat-canvas {
         display: block;
@@ -880,20 +878,16 @@ export default {
 }
 
 .word {
-    color: $secondary-text;
-    font-size: 12px;
+    color: var(--k-ink-muted);
+    font-family: var(--k-font-mono);
+    font-size: var(--k-t-label);
+    font-variant-numeric: tabular-nums;
 }
 
 .connecting-line {
     flex-grow: 1;
     height: 1px;
-    background-color: #ededed;
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 2px;
-
-    .dark & {
-        background-color: #333;
-    }
+    margin: 2px var(--k-s-2) 0;
+    background-color: var(--k-line);
 }
 </style>

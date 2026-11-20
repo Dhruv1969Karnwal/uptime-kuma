@@ -121,7 +121,7 @@ export default {
     transform: translateX(-50%);
 
     .tooltip-content {
-        background: rgba(17, 24, 39, 0.95);
+        background: var(--k-tooltip-bg);
         backdrop-filter: blur(8px);
         border: 1px solid rgba(75, 85, 99, 0.3);
         border-radius: 8px;
@@ -138,50 +138,48 @@ export default {
             transform: translateX(-50%);
             width: 14px;
             height: 2px;
-            background: rgba(17, 24, 39, 0.95);
+            background: var(--k-tooltip-bg);
             top: -1px;
         }
 
         .tooltip-status {
-            font-size: 16px;
-            font-weight: 600;
+            font-size: var(--k-t-body);
+            font-weight: var(--k-weight-medium);
             margin-bottom: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
 
             &.status-up {
-                color: $primary;
+                color: var(--k-tip-up);
             }
 
             &.status-down {
-                color: $danger;
+                color: var(--k-tip-down);
             }
 
             &.status-pending {
-                color: $warning;
+                color: var(--k-tip-pending);
             }
 
             &.status-maintenance {
-                color: $maintenance;
+                color: var(--k-tip-maintenance);
             }
 
             &.status-empty {
-                color: $secondary-text;
+                color: var(--k-tip-neutral);
             }
         }
 
         .tooltip-time {
-            color: #d1d5db;
-            font-size: 13px;
+            color: var(--k-tooltip-ink);
+            font-size: var(--k-t-label);
             margin-bottom: 2px;
         }
 
         .tooltip-message {
-            color: #f3f4f6;
-            font-size: 12px;
+            color: var(--k-tooltip-muted);
+            font-size: var(--k-t-label);
             margin-top: 4px;
             padding-top: 4px;
-            border-top: 1px solid rgba(75, 85, 99, 0.3);
+            border-top: 1px solid var(--k-tooltip-line);
         }
     }
 
@@ -202,7 +200,7 @@ export default {
             transform: translateX(-50%) translateY(-50%) rotate(45deg);
             width: 8px;
             height: 8px;
-            background: rgba(17, 24, 39, 0.95);
+            background: var(--k-tooltip-bg);
             border: 1px solid rgba(75, 85, 99, 0.3);
             border-bottom: none;
             border-right: none;

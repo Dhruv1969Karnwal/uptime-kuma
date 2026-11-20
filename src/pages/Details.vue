@@ -968,27 +968,30 @@ export default {
 }
 
 .url {
-    color: $primary;
-    margin-bottom: 20px;
-    font-weight: bold;
+    margin-bottom: var(--k-s-4);
+    font-family: var(--k-font-mono);
+    font-size: var(--k-t-small);
+    font-weight: var(--k-weight-regular);
+    color: var(--k-ink-muted);
+    overflow-wrap: anywhere;
 
     a {
-        color: $primary;
+        color: var(--k-accent-strong);
     }
 }
 
 .shadow-box {
-    padding: 20px;
-    margin-top: 25px;
+    padding: var(--k-s-5);
+    margin-top: var(--k-s-5);
 }
 
 .word {
     color: $secondary-text;
-    font-size: 14px;
+    font-size: var(--k-t-small);
 }
 
 table {
-    font-size: 14px;
+    font-size: var(--k-t-small);
 
     tr {
         transition: all ease-in-out 0.2ms;
@@ -1071,7 +1074,7 @@ table {
 
 .monitor-id {
     display: inline-flex;
-    font-size: 0.7em;
+    font-size: var(--k-t-label);
     margin-left: 0.3em;
     color: $secondary-text;
     flex-direction: row;

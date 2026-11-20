@@ -98,6 +98,8 @@ export default {
 
 <style>
 .badge {
+    justify-content: center;
     min-width: 62px;
+    font-variant-numeric: tabular-nums;
 }
 </style>

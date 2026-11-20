@@ -1,4 +1,4 @@
-# Uptime Kuma Review Guidelines
+# Steadwatch Review Guidelines
 
 > [!NOTE]
 > These review guidelines are a work in progress, and are frequently

@@ -1,6 +1,8 @@
 <template>
     <div class="form-container">
         <div class="form">
+            <h1 class="login-title">{{ $t("Login") }}</h1>
+
             <form aria-label="Login Form" class="pt-3" @submit.prevent="submit">
                 <div v-if="!tokenRequired" class="form-floating">
                     <input
@@ -98,11 +100,11 @@ export default {
     },
 
     mounted() {
-        document.title += " - Login";
+        document.title = "Login — Steadwatch";
     },
 
     unmounted() {
-        document.title = document.title.replace(" - Login", "");
+        document.title = "Steadwatch";
     },
 
     methods: {
@@ -134,11 +136,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+// A plate, not a bare field: the sign-in screen is the first thing an operator sees.
 .form-container {
     display: flex;
     align-items: center;
-    padding-top: 40px;
-    padding-bottom: 40px;
+    justify-content: center;
+    padding: var(--k-s-7) var(--k-gutter);
+}
+
+.form {
+    width: 100%;
+    max-width: 400px;
+    padding: var(--k-s-6);
+    margin: auto;
+    text-align: center;
+    background-color: var(--k-surface);
+    border: 1px solid var(--k-line);
+    border-radius: var(--k-r-lg);
+    box-shadow: var(--k-shadow-panel);
+}
+
+.login-title {
+    margin-bottom: var(--k-s-5);
+    font-size: var(--k-t-h3);
+    font-weight: var(--k-weight-medium);
+    letter-spacing: -0.01em;
 }
 
 .form-floating {
@@ -149,13 +171,5 @@ export default {
     > .form-control {
         padding-left: 1.3rem;
     }
-}
-
-.form {
-    width: 100%;
-    max-width: 330px;
-    padding: 15px;
-    margin: auto;
-    text-align: center;
 }
 </style>

@@ -21,7 +21,7 @@ class Trigv extends NotificationProvider {
             };
             config = this.getAxiosConfigWithProxy(config);
 
-            let title = monitorJSON?.name || "Uptime Kuma";
+            let title = monitorJSON?.name || "Steadwatch";
             let description = msg;
             let level = "info";
             if (heartbeatJSON != null) {

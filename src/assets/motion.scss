@@ -1,0 +1,238 @@
+// =============================================================================
+// Motion + micro-interaction layer.
+//
+// Rules this file enforces (design-taste-frontend, references/motion.md):
+//   - only transform, opacity and colour animate - never width/height/margin
+//   - one ease (--k-ease) and four durations, no bounce, no overshoot
+//   - anything you can click answers the pointer; keyboard focus shows the same
+//   - nothing reveals itself on scroll, nothing tilts, nothing blinks by itself
+//   - under prefers-reduced-motion the layer stops moving but keeps meaning
+// =============================================================================
+
+// ---------------------------------------------------------------- focus and tab
+// The ring is drawn in the frame focus lands: no transition on outline.
+:focus-visible {
+    outline: 2px solid var(--k-ring);
+    outline-offset: 2px;
+    border-radius: var(--k-r-sm);
+}
+
+// Chrome keeps its own ring on inputs unless we say otherwise; ours is the token ring.
+.form-control:focus-visible,
+.form-select:focus-visible,
+textarea:focus-visible,
+.btn:focus-visible {
+    outline: 2px solid var(--k-ring);
+    outline-offset: 2px;
+    box-shadow: none;
+}
+
+.skip-link {
+    position: absolute;
+    left: var(--k-s-4);
+    top: var(--k-s-3);
+    z-index: 1080;
+    padding: var(--k-s-2) var(--k-s-4);
+    min-height: var(--k-row-h);
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--k-surface);
+    color: var(--k-ink);
+    border: 1px solid var(--k-line-strong);
+    border-radius: var(--k-r-md);
+    box-shadow: var(--k-shadow-pop);
+    font-size: var(--k-t-body);
+    font-weight: var(--k-weight-medium);
+    text-decoration: none;
+    transform: translateY(calc(-100% - var(--k-s-4)));
+
+    &:focus {
+        transform: none;
+    }
+}
+
+// --------------------------------------------------------------------- buttons
+// One button pair, one shape. Filled buttons step 1px up on hover and 1px down
+// plus a hair of scale on press; a label never moves a neighbour.
+.btn {
+    transition:
+        background-color var(--k-dur-in) var(--k-ease),
+        border-color var(--k-dur-in) var(--k-ease),
+        color var(--k-dur-in) var(--k-ease),
+        transform var(--k-dur-in) var(--k-ease),
+        box-shadow var(--k-dur-in) var(--k-ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .btn:not(:disabled):not(.btn-link):hover {
+        transform: translateY(-1px);
+    }
+}
+
+.btn:not(:disabled):not(.btn-link):active,
+.btn:not(:disabled):not(.btn-link).active {
+    transform: translateY(1px) scale(0.985);
+    transition-duration: var(--k-dur-press);
+}
+
+// ----------------------------------------------------------------- text links
+// Resting links keep a faint hairline so they read as links without colour alone;
+// the ink line draws in on hover and retracts on leave.
+a:not(.btn):not(.nav-link):not(.item):not(.list-group-item):not(.dropdown-item):not(.page-link):not(.badge):not(.footer-link):not(.skip-link) {
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-color: color-mix(in srgb, var(--k-ink) 32%, transparent);
+    text-underline-offset: 2px;
+    transition:
+        color var(--k-dur-in) var(--k-ease),
+        text-decoration-color var(--k-dur-in) var(--k-ease);
+
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            text-decoration-color: currentcolor;
+        }
+    }
+}
+
+// Rows and cards that are links: a 2px lift and a stronger hairline, nothing else.
+@media (hover: hover) and (pointer: fine) {
+    .monitor-list .item:hover,
+    .list-group-item-action:hover,
+    a.card-link:hover {
+        transform: translateY(calc(var(--k-lift) * -1));
+        box-shadow: var(--k-shadow-lift);
+    }
+}
+
+.monitor-list .item,
+.list-group-item-action,
+.shadow-box--link {
+    transition:
+        background-color var(--k-dur-lift) var(--k-ease),
+        border-color var(--k-dur-lift) var(--k-ease),
+        transform var(--k-dur-lift) var(--k-ease),
+        box-shadow var(--k-dur-lift) var(--k-ease);
+}
+
+// Non-linked rows must stay put (a card without a link does nothing).
+.monitor-list .item:not(a) {
+    transition: background-color var(--k-dur-lift) var(--k-ease);
+}
+
+// An icon-only affordance: colour step, never a growing scale.
+.action {
+    transition:
+        color var(--k-dur-in) var(--k-ease),
+        opacity var(--k-dur-in) var(--k-ease);
+    cursor: pointer;
+
+    &:hover {
+        color: var(--k-accent-strong);
+    }
+}
+
+// ------------------------------------------------------------- switch and tick
+.form-check-input {
+    transition:
+        background-color var(--k-dur-in) var(--k-ease),
+        border-color var(--k-dur-in) var(--k-ease),
+        filter var(--k-dur-in) var(--k-ease);
+}
+
+.form-switch .form-check-input {
+    transition:
+        background-position var(--k-dur-in) var(--k-ease),
+        background-color var(--k-dur-in) var(--k-ease),
+        border-color var(--k-dur-in) var(--k-ease);
+}
+
+// ------------------------------------------------------------------ page change
+// Vue's route transition: transform and opacity only, and it never hides content
+// for longer than a panel swap.
+.slide-fade-enter-active,
+.slide-fade-leave-active,
+.slide-fade-right-enter-active,
+.slide-fade-right-leave-active,
+.slide-fade-up-enter-active,
+.slide-fade-up-leave-active,
+.fade-enter-active,
+.fade-leave-active {
+    transition:
+        opacity var(--k-dur-panel) var(--k-ease),
+        transform var(--k-dur-panel) var(--k-ease);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+    opacity: 0;
+    transform: translateY(var(--k-s-3));
+}
+
+.slide-fade-right-enter-from,
+.slide-fade-right-leave-to {
+    opacity: 0;
+    transform: translateX(var(--k-s-3));
+}
+
+.slide-fade-up-enter-from,
+.slide-fade-up-leave-to {
+    opacity: 0;
+    transform: translateY(calc(var(--k-s-3) * -1));
+}
+
+// ---------------------------------------------------------------- reduced motion
+// Colour still changes, menus still appear, a press becomes a deeper tone instead
+// of a move, and nothing that was revealed by motion stays hidden.
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+    }
+
+    .btn,
+    .monitor-list .item,
+    .list-group-item-action,
+    .form-check-input,
+    a:not(.btn) {
+        transition-property: background-color, border-color, color, opacity, box-shadow !important;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        .btn:not(:disabled):not(.btn-link):hover,
+        .monitor-list .item:hover,
+        .list-group-item-action:hover {
+            transform: none;
+        }
+    }
+
+    .btn:not(:disabled):not(.btn-link):active,
+    .btn:not(:disabled):not(.btn-link).active {
+        transform: none;
+        filter: brightness(0.94);
+    }
+
+    .slide-fade-enter-from,
+    .slide-fade-leave-to,
+    .slide-fade-right-enter-from,
+    .slide-fade-right-leave-to,
+    .slide-fade-up-enter-from,
+    .slide-fade-up-leave-to,
+    .fade-enter-from,
+    .fade-leave-to {
+        opacity: 1;
+        transform: none;
+    }
+
+    .kuma-live-dot::after {
+        animation: none;
+        opacity: 0.35;
+        transform: scale(1.6);
+    }
+
+    .skip-link {
+        transition: none;
+    }
+}

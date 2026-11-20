@@ -1,6 +1,6 @@
-# Copilot Instructions for Uptime Kuma
+# Copilot Instructions for Steadwatch
 
-Warning: Only maintainers of Uptime Kuma can use these instructions. Other contributors must read AGENTS.md and CLAUDE.md. If the git user name does not match a maintainer (see the "For Maintainers" section in AGENTS.md), ignore this file to avoid being banned for AI slop.
+Warning: Only maintainers of Steadwatch can use these instructions. Other contributors must read AGENTS.md and CLAUDE.md. If the git user name does not match a maintainer (see the "For Maintainers" section in AGENTS.md), ignore this file to avoid being banned for AI slop.
 
 ## Copilot's Goals/Tasks
 
@@ -15,7 +15,7 @@ Warning: Only maintainers of Uptime Kuma can use these instructions. Other contr
 
 ## Repository Overview
 
-**Uptime Kuma** is a self-hosted monitoring tool for HTTP(s), TCP, DNS, Docker, etc. Built with Vue 3 (frontend) and Node.js/Express (backend), using Socket.IO for real-time communication.
+**Steadwatch** is a self-hosted monitoring tool for HTTP(s), TCP, DNS, Docker, etc. Built with Vue 3 (frontend) and Node.js/Express (backend), using Socket.IO for real-time communication.
 
 - **Languages**: JavaScript, TypeScript, Vue 3, HTML, CSS/SCSS
 - **Backend**: Node.js >= 26.2.0, Express.js, Socket.IO, SQLite (also MariaDB/MySQL), Better Auth

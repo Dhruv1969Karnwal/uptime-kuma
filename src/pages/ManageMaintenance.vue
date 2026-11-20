@@ -273,7 +273,7 @@ export default {
 
     &.ended {
         .left-part {
-            opacity: 0.3;
+            opacity: 0.62;
         }
 
         .circle {

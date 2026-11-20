@@ -4,9 +4,15 @@
             <!-- Line 1: Checkbox + Status + Tags + Search Bar -->
             <div class="filter-row">
                 <div class="search-wrapper">
-                    <a v-if="searchText != ''" class="search-icon" @click="clearSearchText">
+                    <button
+                        v-if="searchText != ''"
+                        type="button"
+                        class="search-icon"
+                        :aria-label="$t('Clear search')"
+                        @click="clearSearchText"
+                    >
                         <font-awesome-icon icon="times" />
-                    </a>
+                    </button>
                     <form @submit.prevent>
                         <input
                             v-model="searchText"
@@ -111,12 +117,16 @@
             data-testid="monitor-list"
             @scroll.passive="onListScroll"
         >
-            <div v-if="!$root.monitorListLoaded" class="list-loading" aria-busy="true">
-                <div v-for="i in 8" :key="i" class="skeleton-row"></div>
+            <div v-if="!$root.monitorListLoaded" class="list-loading" role="status" aria-busy="true">
+                <p class="kuma-label">{{ $t("Loading...") }}</p>
+                <div v-for="i in 8" :key="i" class="skeleton-row" aria-hidden="true"></div>
             </div>
-            <div v-else-if="Object.keys($root.monitorList).length === 0" class="text-center mt-3">
-                {{ $t("No Monitors, please") }}
-                <router-link to="/add">{{ $t("add one") }}</router-link>
+            <div v-else-if="Object.keys($root.monitorList).length === 0" class="list-empty">
+                <font-awesome-icon icon="activity" aria-hidden="true" />
+                <p>
+                    {{ $t("No Monitors, please") }}
+                    <router-link to="/add">{{ $t("add one") }}</router-link>
+                </p>
             </div>
 
             <div :style="{ height: renderedRows.top + 'px' }"></div>
@@ -744,18 +754,14 @@ export default {
 }
 
 .list-header {
-    border-bottom: 1px solid #dee2e6;
-    border-radius: 10px 10px 0 0;
-    margin-bottom: 10px;
-    padding: 10px;
+    border-bottom: 1px solid var(--k-line);
+    border-radius: var(--k-r-lg) var(--k-r-lg) 0 0;
+    margin-bottom: var(--k-s-3);
+    padding: var(--k-s-3);
     display: flex;
     flex-direction: column;
     gap: 8px;
 
-    .dark & {
-        background-color: $dark-header-bg;
-        border-bottom: 0;
-    }
 }
 
 .filter-row {
@@ -767,10 +773,11 @@ export default {
     width: 100%;
 
     .form-check-input {
-        cursor: pointer;
-        margin: 0;
-        margin-left: 6px;
+        width: 24px;
+        height: 24px;
+        margin: 0 0 0 var(--k-s-2);
         flex-shrink: 0;
+        cursor: pointer;
     }
 }
 
@@ -797,7 +804,7 @@ export default {
         min-width: 140px;
         padding: 4px 0;
         border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        box-shadow: var(--k-shadow-pop);
 
         .dark & {
             background-color: $dark-bg;
@@ -821,20 +828,11 @@ export default {
         }
 
         &.text-danger {
-            color: #dc3545;
-
-            .dark & {
-                color: #dc3545;
-            }
+            color: var(--k-down);
 
             &:hover {
-                background-color: #dc3545 !important;
+                background-color: var(--k-down-mark) !important;
                 color: white !important;
-
-                .dark & {
-                    background-color: #dc3545 !important;
-                    color: white !important;
-                }
 
                 svg {
                     color: white !important;
@@ -922,14 +920,21 @@ export default {
 
 .search-icon {
     position: absolute;
-    right: 10px;
-    color: #c0c0c0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    color: var(--k-ink-muted);
     cursor: pointer;
-    transition: all ease-in-out 0.1s;
-    z-index: 1;
+    background: none;
+    border: 0;
+    transition: color var(--k-dur-in) var(--k-ease);
 
     &:hover {
-        opacity: 0.5;
+        color: var(--k-ink);
     }
 }
 
@@ -944,12 +949,17 @@ export default {
 }
 
 .skeleton-row {
-    height: 48px;
-    margin-bottom: 8px;
-    border-radius: 8px;
-    background: linear-gradient(90deg, rgba(128, 128, 128, 0.08), rgba(128, 128, 128, 0.18), rgba(128, 128, 128, 0.08));
+    height: var(--k-row-h);
+    margin-bottom: var(--k-s-2);
+    border-radius: var(--k-r-md);
+    background: linear-gradient(
+        90deg,
+        var(--k-surface-sunken),
+        color-mix(in srgb, var(--k-ink) 9%, transparent),
+        var(--k-surface-sunken)
+    );
     background-size: 200% 100%;
-    animation: skeleton-shimmer 1.2s ease-in-out infinite;
+    animation: skeleton-shimmer 1.6s linear infinite;
 }
 
 @keyframes skeleton-shimmer {

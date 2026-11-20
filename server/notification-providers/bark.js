@@ -1,6 +1,6 @@
 //
 //  bark.js
-//  UptimeKuma
+//  Steadwatch
 //
 //  Created by Lakr Aream on 2021/10/24.
 //  Copyright © 2021 Lakr Aream. All rights reserved.
@@ -30,17 +30,17 @@ class Bark extends NotificationProvider {
         }
 
         if (msg != null && heartbeatJSON != null && heartbeatJSON["status"] === UP) {
-            let title = "UptimeKuma Monitor Up";
+            let title = "Steadwatch Monitor Up";
             return await this.postNotification(notification, title, msg, barkEndpoint);
         }
 
         if (msg != null && heartbeatJSON != null && heartbeatJSON["status"] === DOWN) {
-            let title = "UptimeKuma Monitor Down";
+            let title = "Steadwatch Monitor Down";
             return await this.postNotification(notification, title, msg, barkEndpoint);
         }
 
         if (msg != null) {
-            let title = "UptimeKuma Message";
+            let title = "Steadwatch Message";
             return await this.postNotification(notification, title, msg, barkEndpoint);
         }
     }

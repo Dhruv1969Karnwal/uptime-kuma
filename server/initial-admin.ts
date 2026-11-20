@@ -3,7 +3,7 @@ import { createFirstAdmin, hasUser } from "./routers/better-auth-router";
 
 /**
  * Create the initial admin user from environment variables.
- * Only runs when Uptime Kuma has no user yet.
+ * Only runs when Steadwatch has no user yet.
  * @returns {Promise<boolean>} Whether an admin user was created
  * @throws {Error} If only one variable is set, or the user cannot be created
  */
@@ -17,7 +17,7 @@ export async function initAdminFromEnv() {
 
     // Ignore the variables once a user exists, even if their config is now invalid
     if (await hasUser(true)) {
-        log.info("auth", "Uptime Kuma is already initialized, ignoring UK_INITIAL_ADMIN_* environment variables.");
+        log.info("auth", "Steadwatch is already initialized, ignoring UK_INITIAL_ADMIN_* environment variables.");
         return false;
     }
 

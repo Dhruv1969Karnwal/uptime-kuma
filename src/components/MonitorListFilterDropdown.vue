@@ -5,6 +5,8 @@
             class="filter-dropdown-status"
             :class="{ active: filterActive }"
             tabindex="0"
+            aria-haspopup="true"
+            :aria-expanded="open ? 'true' : 'false'"
             :data-testid="testId"
         >
             <div class="px-1 d-flex align-items-center">
@@ -56,26 +58,25 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../assets/vars.scss";
-@import "../assets/app.scss";
-
 .filter-dropdown-menu {
     z-index: 100;
-    transition: all 0.2s;
-    padding: 5px 0 !important;
-    border-radius: 16px;
+    transition: opacity var(--k-dur-panel) var(--k-ease), visibility var(--k-dur-panel) var(--k-ease);
+    padding: var(--k-s-1) !important;
+    border-radius: var(--k-r-md);
     overflow: hidden;
 
     position: absolute;
     inset: 0 auto auto 0;
     margin: 0;
     transform: translate(0, 36px);
-    box-shadow: 0 15px 70px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--k-shadow-pop);
     visibility: hidden;
     list-style: none;
     height: 0;
     opacity: 0;
-    background: white;
+    color: var(--k-ink);
+    background: var(--k-surface);
+    border: 1px solid var(--k-line-strong);
 
     &.open {
         height: unset;
@@ -84,67 +85,37 @@ export default {
     }
 
     .dropdown-item {
-        padding: 5px 15px;
-    }
-
-    .dropdown-item:focus {
-        background: $highlight-white;
-
-        .dark & {
-            background: $dark-bg2;
-        }
-    }
-
-    .dark & {
-        background-color: $dark-bg;
-        color: $dark-font-color;
-        border-color: $dark-border-color;
-
-        .dropdown-item {
-            color: $dark-font-color;
-
-            &.active {
-                color: $dark-font-color2;
-                background-color: $highlight !important;
-            }
-
-            &:hover {
-                background-color: $dark-bg2;
-            }
-        }
+        padding: var(--k-s-2) var(--k-s-3);
     }
 }
 
 .filter-dropdown-status {
-    @extend .btn-outline-normal;
     display: flex;
     align-items: center;
-    margin-left: 0;
-    color: $link-color;
+    min-height: 36px;
+    padding: var(--k-s-1) var(--k-s-3);
+    color: var(--k-ink);
+    cursor: pointer;
+    background-color: transparent;
+    border: 1px solid var(--k-line-strong);
+    border-radius: var(--k-r-md);
+    transition:
+        background-color var(--k-dur-in) var(--k-ease),
+        border-color var(--k-dur-in) var(--k-ease);
 
-    .dark & {
-        color: $dark-font-color;
-    }
-
+    &:hover,
     &:focus {
-        background-color: $highlight-white;
-
-        .dark & {
-            background-color: $dark-font-color2;
-        }
+        background-color: var(--k-surface-hover);
     }
 
-    &.active {
-        border: 1px solid $highlight;
-        background-color: $highlight-white;
-
-        .dark & {
-            background-color: $dark-font-color2;
-        }
+    &.active, &.open {
+        color: var(--k-ink);
+        background-color: var(--k-surface-active);
+        border-color: var(--k-accent-strong);
     }
 }
 
 .filter-active {
-    color: $highlight;
+    color: var(--k-accent-strong);
 }
 </style>

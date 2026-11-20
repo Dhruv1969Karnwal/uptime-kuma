@@ -1,6 +1,8 @@
 <template>
     <div :class="classes">
-        <div v-if="!$root.socket.connected && !$root.socket.firstConnect" class="lost-connection">
+        <a class="skip-link" href="#app-main">{{ $t("Skip to content") }}</a>
+
+        <div v-if="!$root.socket.connected && !$root.socket.firstConnect" class="lost-connection" role="alert">
             <div class="container-fluid">
                 {{ $root.connectionErrorMsg }}
                 <div v-if="$root.showReverseProxyGuide">
@@ -13,44 +15,46 @@
         </div>
 
         <!-- Desktop header -->
-        <header v-if="!$root.isMobile" class="d-flex flex-wrap justify-content-center py-3 mb-3 border-bottom">
-            <router-link
-                to="/dashboard"
-                class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none"
-            >
-                <object class="bi me-2 ms-4" width="40" height="40" data="/icon.svg" />
-                <span class="fs-4 title">{{ $t("Uptime Kuma") }}</span>
+        <header v-if="!$root.isMobile" class="topbar">
+            <router-link to="/dashboard" class="brand">
+                <img class="brand-mark" :src="$root.isDark ? '/icon-dark.svg' : '/icon.svg'" alt="" width="30" height="30" />
+                <span class="brand-name">{{ $t("Uptime Kuma") }}</span>
             </router-link>
 
             <a
                 v-if="hasNewVersion"
                 target="_blank"
                 href="https://github.com/louislam/uptime-kuma/releases"
-                class="btn btn-primary me-3"
+                class="btn btn-primary btn-sm ms-auto"
             >
                 <font-awesome-icon icon="arrow-alt-circle-up" />
                 {{ $t("New Update") }}
             </a>
 
-            <ul class="nav nav-pills">
+            <ul class="nav nav-pills topnav" :class="{ 'ms-auto': !hasNewVersion }" :aria-label="$t('Main navigation')">
                 <li v-if="$root.loggedIn" class="nav-item me-2">
-                    <router-link to="/manage-status-page" class="nav-link">
+                    <router-link to="/manage-status-page" class="nav-link" :class="{ 'is-current': isCurrent(['/manage-status-page', '/status-page', '/status']) }" :aria-current="isCurrent(['/manage-status-page', '/status-page', '/status']) ? 'page' : undefined">
                         <font-awesome-icon icon="stream" />
                         {{ $t("Status Pages") }}
                     </router-link>
                 </li>
                 <li v-if="$root.loggedIn" class="nav-item me-2">
-                    <router-link to="/dashboard" class="nav-link">
+                    <router-link to="/dashboard" class="nav-link" :class="{ 'is-current': isCurrent(['/dashboard', '/edit', '/add', '/list']) }" :aria-current="isCurrent(['/dashboard', '/edit', '/add', '/list']) ? 'page' : undefined">
                         <font-awesome-icon icon="tachometer-alt" />
                         {{ $t("Dashboard") }}
                     </router-link>
                 </li>
                 <li v-if="$root.loggedIn" class="nav-item">
                     <div class="dropdown dropdown-profile-pic">
-                        <div class="nav-link" data-bs-toggle="dropdown">
-                            <div class="profile-pic">{{ $root.usernameFirstChar }}</div>
-                            <font-awesome-icon icon="angle-down" />
-                        </div>
+                        <button
+                            type="button"
+                            class="profile-btn"
+                            data-bs-toggle="dropdown"
+                            :aria-label="$t('Account menu')"
+                        >
+                            <span class="profile-pic" aria-hidden="true">{{ $root.usernameFirstChar }}</span>
+                            <font-awesome-icon icon="angle-down" aria-hidden="true" />
+                        </button>
 
                         <!-- Header's Dropdown Menu -->
                         <ul class="dropdown-menu">
@@ -118,20 +122,28 @@
         </header>
 
         <!-- Mobile header -->
-        <header v-else class="d-flex flex-wrap justify-content-center pt-2 pb-2 mb-3">
-            <router-link to="/dashboard" class="d-flex align-items-center text-dark text-decoration-none">
-                <object class="bi" width="40" height="40" data="/icon.svg" />
-                <span class="fs-4 title ms-2">Uptime Kuma</span>
+        <header v-else class="topbar topbar-mobile">
+            <router-link to="/dashboard" class="brand">
+                <img class="brand-mark" :src="$root.isDark ? '/icon-dark.svg' : '/icon.svg'" alt="" width="28" height="28" />
+                <span class="brand-name">{{ $t("Uptime Kuma") }}</span>
             </router-link>
+            <a
+                v-if="hasNewVersion"
+                target="_blank"
+                href="https://github.com/louislam/uptime-kuma/releases"
+                class="btn btn-primary btn-sm ms-auto"
+            >
+                {{ $t("New Update") }}
+            </a>
         </header>
 
-        <main>
+        <main id="app-main" tabindex="-1">
             <router-view v-if="$root.loggedIn" />
             <Login v-if="!$root.loggedIn && $root.allowLoginDialog" />
         </main>
 
         <!-- Mobile Only -->
-        <div v-if="$root.isMobile" style="width: 100%; height: calc(60px + env(safe-area-inset-bottom))" />
+        <div v-if="$root.isMobile" class="bottom-nav-spacer" />
         <nav v-if="$root.isMobile && $root.loggedIn" class="bottom-nav">
             <router-link to="/dashboard" class="nav-link">
                 <div><font-awesome-icon icon="tachometer-alt" /></div>
@@ -227,6 +239,16 @@ export default {
 
     methods: {
         /**
+         * Is the current route one of these prefixes? The nav marks the active
+         * section, not only an exactly matching path.
+         * @param {string[]} prefixes Route prefixes owned by this nav entry
+         * @returns {boolean} True when the active route starts with one of them
+         */
+        isCurrent(prefixes) {
+            return prefixes.some((prefix) => this.$route.path.startsWith(prefix));
+        },
+
+        /**
          * Clear all toast notifications.
          * @returns {void}
          */
@@ -238,195 +260,203 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/vars.scss";
+// App shell. Every value comes from the tokens in assets/tokens.scss, so the
+// shell themes itself when mixins/theme.js puts `dark` on <body>.
+.topbar {
+    display: flex;
+    align-items: center;
+    gap: var(--k-s-3);
+    min-height: var(--k-nav-h);
+    padding: var(--k-s-2) max(var(--k-gutter), calc((100% - var(--k-wrap)) / 2));
+    margin-bottom: var(--k-s-5);
+    background-color: var(--k-surface);
+    border-bottom: 1px solid var(--k-line);
+}
 
-.nav-link {
-    &:hover {
-        background-color: $primary;
-        color: #fff;
+.brand {
+    display: flex;
+    align-items: center;
+    gap: var(--k-s-2);
+    min-height: var(--k-row-h);
+    padding-right: var(--k-s-2);
+    color: var(--k-ink);
+    text-decoration: none;
 
-        .dark & {
-            background-color: $primary;
-            color: #000;
-        }
-
-        &.active {
-            background-color: $highlight;
-        }
-    }
-
-    &.status-page {
-        background-color: rgba(255, 255, 255, 0.1);
+    &:hover .brand-name {
+        color: var(--k-accent-strong);
     }
 }
 
-.bottom-nav {
-    z-index: 1000;
-    position: fixed;
-    bottom: 0;
-    height: calc(60px + env(safe-area-inset-bottom));
-    width: 100%;
-    left: 0;
-    background-color: #fff;
-    box-shadow:
-        0 15px 47px 0 rgba(0, 0, 0, 0.05),
-        0 5px 14px 0 rgba(0, 0, 0, 0.05);
-    text-align: center;
-    white-space: nowrap;
-    padding: 0 10px env(safe-area-inset-bottom);
+.brand-mark {
+    flex: none;
+    border-radius: var(--k-r-md);
+}
 
-    a {
-        text-align: center;
-        width: 25%;
-        display: inline-block;
-        height: 100%;
-        padding: 8px 10px 0;
-        font-size: 13px;
-        color: #c1c1c1;
-        overflow: hidden;
+.brand-name {
+    font-size: var(--k-t-lead);
+    font-weight: var(--k-weight-semibold);
+    letter-spacing: var(--k-tracking-head);
+    color: var(--k-ink);
+    transition: color var(--k-dur-in) var(--k-ease);
+}
+
+// Nav words: quiet until hovered; the active route is the one filled pill.
+.topnav {
+    flex: none;
+    align-items: center;
+    gap: var(--k-s-1);
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        gap: var(--k-s-2);
+        min-height: var(--k-row-h);
+        padding: var(--k-s-2) var(--k-s-3);
+        font-size: var(--k-t-small);
+        font-weight: var(--k-weight-medium);
+        color: var(--k-ink-muted);
         text-decoration: none;
+        border-radius: var(--k-r-md);
 
-        &.router-link-exact-active,
-        &.active {
-            color: $primary;
-            font-weight: bold;
+        &:hover {
+            color: var(--k-ink);
+            background-color: var(--k-surface-hover);
         }
 
-        div {
-            font-size: 20px;
+        &.is-current,
+        &[aria-current="page"] {
+            color: var(--k-on-accent);
+            background-color: var(--k-accent);
         }
     }
+}
+
+// Profile affordance: a real button (it was a div, so it was unreachable by
+// keyboard) that opens the account menu.
+.dropdown-profile-pic {
+    user-select: none;
+}
+
+.profile-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--k-s-2);
+    min-height: var(--k-row-h);
+    padding: var(--k-s-1) var(--k-s-3) var(--k-s-1) var(--k-s-1);
+    color: var(--k-ink);
+    cursor: pointer;
+    background-color: var(--k-surface-sunken);
+    border: 1px solid var(--k-line);
+    border-radius: var(--k-r-pill);
+    transition:
+        background-color var(--k-dur-in) var(--k-ease),
+        border-color var(--k-dur-in) var(--k-ease);
+
+    &:hover {
+        background-color: var(--k-surface-hover);
+        border-color: var(--k-line-strong);
+    }
+}
+
+.profile-pic {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    font-family: var(--k-font-mono);
+    font-size: var(--k-t-label);
+    font-weight: var(--k-weight-medium);
+    color: var(--k-on-accent);
+    background-color: var(--k-accent);
+    border-radius: var(--k-r-pill);
 }
 
 main {
-    min-height: calc(100vh - 160px);
+    min-height: calc(100vh - var(--k-nav-h) - 96px);
+    outline: none;
 }
 
-.title {
-    font-weight: bold;
-}
-
-.nav {
-    margin-right: 25px;
-}
-
+// In flow, not fixed: a banner that floats over the page hides what it reports.
 .lost-connection {
-    padding: 5px;
-    background-color: crimson;
-    color: white;
-    position: fixed;
-    width: 100%;
-    z-index: 99999;
+    padding: var(--k-s-3) var(--k-s-4);
+    font-size: var(--k-t-small);
+    color: var(--k-down);
+    background-color: var(--k-down-tint);
+    border-bottom: 1px solid color-mix(in srgb, var(--k-down-mark) 40%, transparent);
 }
 
-// Profile Pic Button with Dropdown
-.dropdown-profile-pic {
-    user-select: none;
+// Mobile: a hairline above, no blurred shadow, 56px rows for the thumb.
+.bottom-nav-spacer {
+    width: 100%;
+    height: calc(60px + env(safe-area-inset-bottom));
+}
 
-    .nav-link {
-        cursor: pointer;
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    width: 100%;
+    height: calc(60px + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+    background-color: var(--k-surface);
+    border-top: 1px solid var(--k-line);
+
+    a {
         display: flex;
-        gap: 6px;
-        align-items: center;
-        background-color: rgba(200, 200, 200, 0.2);
-        padding: 0.5rem 0.8rem;
-
-        &:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-    }
-
-    .dropdown-menu {
-        transition: all 0.2s;
-        padding-left: 0;
-        padding-bottom: 0;
-        margin-top: 8px !important;
-        border-radius: 16px;
-        overflow: hidden;
-
-        .dropdown-divider {
-            margin: 0;
-            border-top: 1px solid rgba(0, 0, 0, 0.4);
-            background-color: transparent;
-        }
-
-        .dropdown-item-text {
-            font-size: 14px;
-            padding-bottom: 0.7rem;
-        }
-
-        .dropdown-item {
-            padding: 0.7rem 1rem;
-        }
-
-        .dark & {
-            background-color: $dark-bg;
-            color: $dark-font-color;
-            border-color: $dark-border-color;
-
-            .dropdown-item {
-                color: $dark-font-color;
-
-                &.active {
-                    color: $dark-font-color2;
-                    background-color: $highlight !important;
-                }
-
-                &:hover {
-                    background-color: $dark-bg2;
-                }
-            }
-        }
-    }
-
-    .profile-pic {
-        display: flex;
+        flex: 1;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        color: white;
-        background-color: $primary;
-        width: 24px;
-        height: 24px;
-        margin-right: 5px;
-        border-radius: 50rem;
-        font-weight: bold;
-        font-size: 10px;
-    }
-}
+        gap: 2px;
+        min-height: 56px;
+        // four columns at 320px are 80px wide and "Settings" needs 82, so the label
+        // wraps onto a second line rather than being cut (the bar has room for it)
+        padding-inline: 2px;
+        line-height: 1.15;
+        font-size: var(--k-t-label);
+        color: var(--k-ink-muted);
+        text-decoration: none;
 
-.dark {
-    header {
-        background-color: $dark-header-bg;
-        border-bottom-color: $dark-header-bg !important;
-
-        span {
-            color: #f0f6fc;
+        div {
+            font-size: 18px;
         }
-    }
 
-    .bottom-nav {
-        background-color: $dark-bg;
+        &:hover {
+            color: var(--k-ink);
+        }
+
+        &[aria-current="page"] {
+            font-weight: var(--k-weight-medium);
+            color: var(--k-accent-strong);
+        }
     }
 }
 
 .clear-all-toast-btn {
     position: fixed;
-    right: 1em;
-    bottom: 1em;
-    font-size: 1.2em;
-    padding: 9px 15px;
-    width: 48px;
-    box-shadow: 2px 2px 30px rgba(0, 0, 0, 0.2);
+    right: var(--k-s-4);
+    bottom: var(--k-s-4);
     z-index: 100;
-
-    .dark & {
-        box-shadow: 2px 2px 30px rgba(0, 0, 0, 0.5);
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    min-height: 44px;
+    padding: 0;
+    border-radius: var(--k-r-pill);
+    box-shadow: var(--k-shadow-pop);
 }
 
 @media (max-width: 770px) {
+    .topbar {
+        margin-bottom: var(--k-s-4);
+    }
+
     .clear-all-toast-btn {
-        bottom: 72px;
+        bottom: 76px;
     }
 }
 </style>

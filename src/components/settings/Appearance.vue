@@ -154,23 +154,5 @@
 export default {};
 </script>
 
-<style lang="scss" scoped>
-@import "../../assets/vars.scss";
-
-.btn-check:active + .btn-outline-primary,
-.btn-check:checked + .btn-outline-primary,
-.btn-check:hover + .btn-outline-primary {
-    color: #fff;
-
-    .dark & {
-        color: #000;
-    }
-}
-
-.dark {
-    .list-group-item {
-        background-color: $dark-bg2;
-        color: $dark-font-color;
-    }
-}
-</style>
+<!-- colours come from the token layer: a checked label is ink on the brand
+     fill in both themes, see assets/app.scss and assets/tokens.scss -->

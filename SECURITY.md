@@ -13,7 +13,7 @@ PS: Do not use the public issue tracker or discuss it in public as it will cause
 ## Will be Closed without explanation
 
 - No LLM description, I don't read it
-- Do not report any upstream dependency issues, unless you have PoC to prove that the upstream issue affected Uptime Kuma.
+- Do not report any upstream dependency issues, unless you have PoC to prove that the upstream issue affected Steadwatch.
 - Do not report any scan result by any tools, unless you have PoC.
 - Do not report any SSRF issues.
 
@@ -26,9 +26,9 @@ Advisories only. I will ignore all 3rd-party bug bounty platforms emails.
 
 ## Supported Versions
 
-### Uptime Kuma Versions
+### Steadwatch Versions
 
-You should use or upgrade to the latest version of Uptime Kuma.
+You should use or upgrade to the latest version of Steadwatch.
 All versions are upgradable to the latest version.
 
 ### Upgradable Docker Tags
