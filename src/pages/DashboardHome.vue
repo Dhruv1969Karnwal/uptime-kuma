@@ -31,6 +31,8 @@
             </dl>
 
             <div class="shadow-box table-shadow-box table-wrapper">
+                <h2 class="events-title">{{ $t("Events") }}</h2>
+
                 <div class="mb-3 text-end">
                     <button
                         class="btn btn-sm btn-outline-danger"
@@ -353,6 +355,16 @@ export default {
 
 .kuma-stat.is-maintenance .kuma-stat-mark {
     background-color: var(--k-maint-mark);
+}
+
+// the panel names itself: the clear button used to sit alone at the top-right of an
+// untitled table
+.events-title {
+    padding: var(--k-s-4) var(--k-s-4) 0;
+    margin-bottom: var(--k-s-3);
+    font-size: var(--k-t-h3);
+    font-weight: var(--k-weight-medium);
+    letter-spacing: -0.01em;
 }
 
 table {
