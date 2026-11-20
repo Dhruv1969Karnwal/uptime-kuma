@@ -4,8 +4,8 @@
             <h1 class="mb-3">{{ pageName }}</h1>
             <form @submit.prevent="submit">
                 <div class="shadow-box shadow-box-with-fixed-bottom-bar">
-                    <div class="row">
-                        <div class="col-md-6">
+                    <div class="row edit-form">
+                        <div class="col-md-6 form-col">
                             <h2 class="mb-2">{{ $t("General") }}</h2>
 
                             <i18n-t
@@ -269,7 +269,7 @@
                                     <br />
                                     {{ $t("pushOptionalParams", ["status, msg, ping"]) }}
                                 </div>
-                                <button class="btn btn-primary" type="button" @click="resetToken">
+                                <button class="btn btn-outline-secondary" type="button" @click="resetToken">
                                     {{ $t("Reset Token") }}
                                 </button>
                             </div>
@@ -1427,7 +1427,7 @@
                                             {{ $t("PM2 Process") }}
                                         </label>
                                         <button
-                                            class="btn btn-outline-secondary btn-sm"
+                                            class="btn btn-outline-secondary"
                                             type="button"
                                             :disabled="pm2ProcessLoading"
                                             @click="loadPM2ProcessList"
@@ -2230,9 +2230,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <div v-if="$root.isMobile" class="mt-3" />
-
+                        <div class="col-md-6 form-col">
                             <!-- Notifications -->
                             <h2 class="mb-2">{{ $t("Notifications") }}</h2>
                             <p v-if="$root.notificationList.length === 0">
@@ -2263,7 +2261,11 @@
                                 </span>
                             </div>
 
-                            <button class="btn btn-primary me-2" type="button" @click="$refs.notificationDialog.show()">
+                            <button
+                                class="btn btn-outline-secondary me-2"
+                                type="button"
+                                @click="$refs.notificationDialog.show()"
+                            >
                                 {{ $t("Setup Notification") }}
                             </button>
 
@@ -2497,7 +2499,11 @@
                                     </span>
                                 </div>
 
-                                <button class="btn btn-primary me-2" type="button" @click="$refs.proxyDialog.show()">
+                                <button
+                                    class="btn btn-outline-secondary me-2"
+                                    type="button"
+                                    @click="$refs.proxyDialog.show()"
+                                >
                                     {{ $t("Setup Proxy") }}
                                 </button>
                             </div>
@@ -3230,7 +3236,7 @@
                         </div>
                     </div>
 
-                    <div class="fixed-bottom-bar p-3">
+                    <div class="fixed-bottom-bar">
                         <button
                             id="monitor-submit-btn"
                             class="btn btn-primary"
@@ -4588,6 +4594,115 @@ message HealthCheckResponse {
 
 <style lang="scss" scoped>
 @import "../assets/vars.scss";
+
+// =============================================================================
+// Form depth pass. One rhythm (32 between sections, 16 between fields, 4 between
+// a control and its helper line - all on the 4/8 scale), one label voice, one
+// secondary voice, one control height and exactly one filled action: Save in the
+// sticky bar. Bootstrap's spacing utilities are re-pointed at the token scale
+// here, so the 168 `my-3` / `mt-5` classes in the template carry no decision of
+// their own any more.
+// =============================================================================
+
+// -----------------------------------------------------------------
+// columns
+// The form renders inside the dashboard's detail pane (8 of 12 columns at xl,
+// about 940px), never in half the viewport: the split happens where the pane is
+// wide enough for two readable columns, and the gutter is a token instead of the
+// framework's negative-margin gutter, so both content edges sit on the panel's
+// own padding line.
+// -----------------------------------------------------------------
+.edit-form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--k-s-6);
+    margin: 0;
+    padding-bottom: var(--k-s-4);
+}
+
+@media (min-width: 1200px) {
+    .edit-form {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.form-col {
+    width: auto;
+    max-width: 100%;
+    padding: 0;
+}
+
+// -----------------------------------------------------------------
+// rhythm
+// -----------------------------------------------------------------
+.form-col > * {
+    margin: var(--k-s-4) 0 0 !important;
+}
+
+.form-col > :first-child {
+    margin-top: 0 !important;
+}
+
+// A section steps away from the field list it opens; a sub-heading sits between
+// the two, so 32 / 24 / 16 reads as section / group / field without a single rule
+// or box being added.
+.form-col h2 {
+    margin: var(--k-s-6) 0 0 !important;
+    font-size: var(--k-t-h3);
+    letter-spacing: var(--k-tracking-head);
+}
+
+.form-col h4 {
+    margin: var(--k-s-5) 0 0 !important;
+    font-size: var(--k-t-body);
+}
+
+// The empty-state line belongs to the heading above it, not to the field list.
+.form-col > p {
+    margin-top: var(--k-s-2) !important;
+}
+
+// Two controls that make up one field (condition + expected value) share one
+// gutter instead of each carrying its own utility margin.
+.form-col .d-flex.align-items-start {
+    gap: var(--k-s-3);
+}
+
+.form-col .d-flex.align-items-start > * {
+    margin: 0 !important;
+}
+
+// -----------------------------------------------------------------
+// labels and helper text
+// Labels keep the shared 14/500 --k-ink voice (app.scss); helper text drops to
+// the scale's 13px secondary step so the two can never be mistaken for each
+// other in a form this dense.
+// -----------------------------------------------------------------
+.form-text {
+    font-size: var(--k-t-label);
+}
+
+.small {
+    font-size: var(--k-t-label);
+    font-weight: var(--k-weight-regular);
+}
+
+// -----------------------------------------------------------------
+// sticky save bar: a surface on the panel's edge with a hairline above it (the
+// band itself is themed in app.scss), aligned to the field edge it saves.
+// -----------------------------------------------------------------
+.fixed-bottom-bar {
+    padding: var(--k-s-4) var(--k-s-5);
+}
+
+// On a phone the app's own bottom nav (60px + safe area, fixed in Layout.vue)
+// covers the sticky bar, which swallows the only filled action on the screen.
+// The breakpoint mirrors the isMobile mixin (windowWidth <= 767.98).
+@media (max-width: 767.98px) {
+    .fixed-bottom-bar {
+        bottom: calc(60px + env(safe-area-inset-bottom));
+    }
+}
 
 textarea {
     min-height: 200px;
