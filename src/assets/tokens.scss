@@ -15,7 +15,7 @@
 @font-face {
     font-family: "Manrope";
     font-style: normal;
-    font-weight: 400 500;
+    font-weight: 400 600;
     font-display: swap;
     src: url("./fonts/manrope-latin-var.woff2") format("woff2");
 }
@@ -53,10 +53,12 @@
     --k-accent-hover: #{$k-accent-hover};
     --k-accent-strong: #{$k-accent-strong};
     --k-on-accent: #{$k-on-accent};
+    --k-on-warn: #{$k-ink};
+    --k-on-danger: #ffffff;
     --k-ring: #{$k-accent-strong};
 
-    --k-action-danger-bg: #b02530;
-    --k-action-danger-hover: #911d27;
+    --k-action-danger-bg: #b91c1c;
+    --k-action-danger-hover: #991b1b;
 
     // ---- status: text / mark / tint, always used together
     --k-up: #{$k-up};
@@ -74,32 +76,32 @@
     --k-neutral-tint: #{$k-surface-sunken};
 
     // an empty beat in the heartbeat strip: a quiet slot, never a blank canvas
-    --k-beat-empty: rgba(27, 29, 31, 0.13);
+    --k-beat-empty: rgba(15, 23, 42, 0.13);
 
     // legacy name read by components/HeartbeatBar.vue (was never defined, so the
     // canvas silently fell back to a different blue)
     --maintenance: #{$k-maint-mark};
 
     // ---- surfaces for overlays
-    --k-overlay: rgba(16, 19, 24, 0.55);
+    --k-overlay: rgba(11, 18, 32, 0.55);
     --k-shadow-panel: 0 1px 2px rgba(20, 23, 28, 0.05);
     --k-shadow-lift: 0 6px 16px -8px rgba(12, 15, 20, 0.2);
     --k-shadow-pop: 0 12px 32px -8px rgba(12, 15, 20, 0.28), 0 2px 6px rgba(12, 15, 20, 0.12);
 
     // the heartbeat tooltip is a dark plate in both themes, so its text tokens are
     // fixed rather than themed (measured 1.3:1 when they followed the light palette)
-    --k-tooltip-bg: rgba(17, 24, 39, 0.96);
-    --k-tooltip-ink: #f3f4f6;
-    --k-tooltip-muted: #d1d5db;
-    --k-tooltip-line: rgba(203, 213, 225, 0.28);
+    --k-tooltip-bg: rgba(11, 18, 32, 0.96);
+    --k-tooltip-ink: #e5e7eb;
+    --k-tooltip-muted: #9ca3af;
+    --k-tooltip-line: rgba(156, 163, 175, 0.28);
 
     // the status word inside that plate has to clear 4.5:1 against it, so it cannot
     // reuse the page status colours (measured 3.16:1 and 2.18:1 when it did)
-    --k-tip-up: #7ee2a8;
-    --k-tip-down: #ff98a0;
-    --k-tip-pending: #ffcb7d;
-    --k-tip-maintenance: #a8c2ff;
-    --k-tip-neutral: #a3acb8;
+    --k-tip-up: #4ade80;
+    --k-tip-down: #f87171;
+    --k-tip-pending: #fbbf24;
+    --k-tip-maintenance: #93b4ff;
+    --k-tip-neutral: #9ca3af;
 
     // ---- spacing: the only scale in the app (4 / 8)
     --k-s-1: 4px;
@@ -127,6 +129,7 @@
     --k-t-h1: #{$h1-font-size}; // 38
     --k-weight-regular: 400;
     --k-weight-medium: 500;
+    --k-weight-semibold: 600;
     --k-tracking-head: -0.02em;
 
     // ---- shapes
@@ -155,10 +158,10 @@
     --bs-tertiary-bg: var(--k-surface-sunken);
     --bs-link-color: var(--k-accent-strong);
     --bs-link-hover-color: var(--k-ink);
-    --bs-primary-rgb: 23, 162, 91;
-    --bs-danger-rgb: 210, 50, 63;
-    --bs-warning-rgb: 224, 144, 0;
-    --bs-info-rgb: 47, 99, 232;
+    --bs-primary-rgb: 47, 74, 125;
+    --bs-danger-rgb: 185, 28, 28;
+    --bs-warning-rgb: 180, 83, 9;
+    --bs-info-rgb: 15, 118, 110;
 }
 
 // ------------------------------------------------------------------ dark theme
@@ -173,7 +176,12 @@ body.dark {
     --k-line: #{$k-line-dark};
     --k-line-strong: #{$k-line-strong-dark};
 
+    --k-accent: #{$k-accent-dark};
+    --k-accent-hover: #{$k-accent-hover-dark};
     --k-accent-strong: #{$k-accent-strong-dark};
+    --k-on-accent: #{$k-on-accent-dark};
+    --k-on-warn: #0b1220;
+    --k-on-danger: #0b1220;
     --k-ring: #{$k-accent-strong-dark};
 
     --k-up: #{$k-up-dark};
@@ -182,19 +190,19 @@ body.dark {
     --k-maint: #{$k-maint-dark};
 
     // marks brighten in the dark theme so beats, dots and bars stay >=3:1 as
-    // graphics against the near-black ground
-    --k-up-mark: #2fbd73;
-    --k-down-mark: #e8555f;
-    --k-warn-mark: #f0a53a;
-    --k-maint-mark: #5f86f5;
-    --k-up-tint: rgba(126, 226, 168, 0.14);
-    --k-down-tint: rgba(255, 152, 160, 0.14);
-    --k-warn-tint: rgba(255, 203, 125, 0.14);
-    --k-maint-tint: rgba(168, 194, 255, 0.16);
+    // graphics against the dark ground
+    --k-up-mark: #4ade80;
+    --k-down-mark: #f87171;
+    --k-warn-mark: #fbbf24;
+    --k-maint-mark: #93b4ff;
+    --k-up-tint: rgba(74, 222, 128, 0.14);
+    --k-down-tint: rgba(248, 113, 113, 0.14);
+    --k-warn-tint: rgba(251, 191, 36, 0.14);
+    --k-maint-tint: rgba(147, 180, 255, 0.16);
     --k-neutral-tint: #{$k-surface-sunken-dark};
-    --k-beat-empty: rgba(231, 234, 238, 0.17);
+    --k-beat-empty: rgba(229, 231, 235, 0.17);
 
-    --k-overlay: rgba(4, 6, 9, 0.66);
+    --k-overlay: rgba(3, 7, 16, 0.72);
     --k-shadow-panel: none;
     --k-shadow-lift: 0 6px 16px -8px rgba(0, 0, 0, 0.6);
     --k-shadow-pop: 0 16px 40px -12px rgba(0, 0, 0, 0.7), 0 2px 8px rgba(0, 0, 0, 0.5);
@@ -205,17 +213,17 @@ body.dark {
     // well, otherwise a .text-muted span inside body.dark still resolves to the
     // light palette because :root computed it first.
     --bs-secondary-color: var(--k-ink-muted);
-    --bs-secondary-color-rgb: 163, 172, 184;
+    --bs-secondary-color-rgb: 156, 163, 175;
     --bs-emphasis-color: var(--k-ink);
-    --bs-emphasis-color-rgb: 231, 234, 238;
-    --bs-body-color-rgb: 231, 234, 238;
-    --k-action-danger-bg: #c9333f;
-    --k-action-danger-hover: #a82833;
-    --bs-border-color-rgb: 43, 49, 58;
+    --bs-emphasis-color-rgb: 229, 231, 235;
+    --bs-body-color-rgb: 229, 231, 235;
+    --k-action-danger-bg: #b91c1c;
+    --k-action-danger-hover: #991b1b;
+    --bs-border-color-rgb: 31, 42, 61;
     --bs-link-color: var(--k-accent-strong);
     --bs-link-hover-color: var(--k-ink);
-    --bs-primary-rgb: 47, 189, 115;
-    --bs-danger-rgb: 232, 85, 95;
-    --bs-warning-rgb: 240, 165, 58;
-    --bs-info-rgb: 95, 134, 245;
+    --bs-primary-rgb: 143, 169, 224;
+    --bs-danger-rgb: 248, 113, 113;
+    --bs-warning-rgb: 251, 191, 36;
+    --bs-info-rgb: 45, 212, 191;
 }

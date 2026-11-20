@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="312" height="64" viewBox="0 0 312 64" role="img" aria-labelledby="steadwatch-logo-horizontal-dark-title">
+    <title id="steadwatch-logo-horizontal-dark-title">Steadwatch</title>
+    <defs>
+        <linearGradient id="steadwatch-horizontal-dark-plate" x1="8" y1="6" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#172238"/>
+            <stop offset="1" stop-color="#0E1626"/>
+        </linearGradient>
+    </defs>
+    <rect x="4.5" y="4.5" width="55" height="55" rx="14" fill="url(#steadwatch-horizontal-dark-plate)" stroke="#1F2A3D" stroke-width="1"/>
+    <path d="M14 32h9.5l4.2-9.5 6.1 19 4.7-13.2 2.8 3.7H50" fill="none" stroke="#8FA9E0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="80" y="42" fill="#E5E7EB" font-family="Manrope, 'Segoe UI', Arial, sans-serif" font-size="32" font-weight="600" letter-spacing="-0.8">Steadwatch</text>
+</svg>

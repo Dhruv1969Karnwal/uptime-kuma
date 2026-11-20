@@ -69,12 +69,12 @@ describe("Microsoft Graph notification provider", () => {
                 customBody: "<b>{{ msg }}</b>",
                 htmlBody: true,
             }),
-            "Uptime Kuma Testing"
+            "Steadwatch Testing"
         );
 
         const message = calls[1].data.message;
-        assert.strictEqual(message.subject, "Subject Uptime Kuma Testing");
-        assert.deepStrictEqual(message.body, { contentType: "HTML", content: "<b>Uptime Kuma Testing</b>" });
+        assert.strictEqual(message.subject, "Subject Steadwatch Testing");
+        assert.deepStrictEqual(message.body, { contentType: "HTML", content: "<b>Steadwatch Testing</b>" });
     });
 
     test("requires at least one recipient", async () => {

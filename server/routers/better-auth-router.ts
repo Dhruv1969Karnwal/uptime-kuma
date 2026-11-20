@@ -56,7 +56,7 @@ export async function createBetterAuthRouter() {
             try {
                 if (!(await needSetup())) {
                     throw new Error(
-                        "Uptime Kuma has been initialized. If you want to run setup again, please delete the database."
+                        "Steadwatch has been initialized. If you want to run setup again, please delete the database."
                     );
                 }
 
@@ -108,12 +108,12 @@ export async function hasUser(checkLegacyUser = false) {
  * @param {string} username Admin username
  * @param {string} password Admin password
  * @returns {Promise<object>} The created user
- * @throws {Error} If Uptime Kuma already has a user, or Better Auth rejects the user
+ * @throws {Error} If Steadwatch already has a user, or Better Auth rejects the user
  */
 export async function createFirstAdmin(username: string, password: string) {
     if (await hasUser(true)) {
         throw new Error(
-            "Uptime Kuma has been initialized. If you want to run setup again, please delete the database."
+            "Steadwatch has been initialized. If you want to run setup again, please delete the database."
         );
     }
 

@@ -9,8 +9,8 @@
     --dp-hover-color: var(--k-ink);
     --dp-hover-text-color: var(--k-on-accent);
     --dp-hover-icon-color: var(--k-ink-muted);
-    --dp-primary-color: #5cdd8b;
-    --dp-primary-text-color: #0a2415;
+    --dp-primary-color: var(--k-accent);
+    --dp-primary-text-color: var(--k-on-accent);
     --dp-secondary-color: var(--k-ink-muted);
     --dp-border-color: #{$dark-border-color};
     --dp-menu-border-color: var(--k-line-strong);
@@ -18,11 +18,11 @@
     --dp-disabled-color: var(--k-surface-sunken);
     --dp-scroll-bar-background: var(--k-surface-sunken);
     --dp-scroll-bar-color: var(--k-line-strong);
-    --dp-success-color: #{$primary};
+    --dp-success-color: var(--k-up);
     --dp-success-color-disabled: var(--k-up-mark);
     --dp-icon-color: var(--k-ink-muted);
     --dp-danger-color: var(--k-down-mark);
-    --dp-highlight-color: rgba(0, 92, 178, 0.2);
+    --dp-highlight-color: rgba(15, 118, 110, 0.16);
 }
 
 .dp__input {

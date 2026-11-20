@@ -173,9 +173,9 @@ export default {
                         mode: "nearest",
                         intersect: false,
                         padding: 10,
-                        backgroundColor: this.$root.theme === "light" ? "rgba(212,232,222,1.0)" : "rgba(32,42,38,1.0)",
-                        bodyColor: this.$root.theme === "light" ? "rgba(12,12,18,1.0)" : "rgba(220,220,220,1.0)",
-                        titleColor: this.$root.theme === "light" ? "rgba(12,12,18,1.0)" : "rgba(220,220,220,1.0)",
+                        backgroundColor: this.$root.theme === "light" ? "rgba(248,250,252,1.0)" : "rgba(17,26,43,1.0)",
+                        bodyColor: this.$root.theme === "light" ? "rgba(15,23,42,1.0)" : "rgba(229,231,235,1.0)",
+                        titleColor: this.$root.theme === "light" ? "rgba(15,23,42,1.0)" : "rgba(229,231,235,1.0)",
                         // No longer rely solely on datasetIndex === 0; we want to hide tooltips only for the bars
                         filter: function (tooltipItem) {
                             const ds = tooltipItem?.chart?.data?.datasets?.[tooltipItem.datasetIndex];
@@ -205,7 +205,7 @@ export default {
                             }
                         },
                         labels: {
-                            color: this.$root.theme === "light" ? "rgba(12,12,18,1.0)" : "rgba(220,220,220,1.0)",
+                            color: this.$root.theme === "light" ? "rgba(15,23,42,1.0)" : "rgba(229,231,235,1.0)",
                             // Filter to display only the lines in the legend
                             filter: function (legendItem, data) {
                                 const ds = data.datasets[legendItem.datasetIndex];
@@ -419,8 +419,8 @@ export default {
                         data: pingData,
                         fill: "origin",
                         tension: 0.2,
-                        borderColor: "#4ABF74",
-                        backgroundColor: "#4ABF7438",
+                        borderColor: "#0F766E",
+                        backgroundColor: "#0F766E38",
                         yAxisID: "y",
                         label: this.$t("avgPing"),
                     },
@@ -549,8 +549,8 @@ export default {
                         data: minPingData,
                         fill: "origin",
                         tension: 0.2,
-                        borderColor: "#126331",
-                        backgroundColor: "#2F9C5914",
+                        borderColor: "#4F6FA8",
+                        backgroundColor: "#4F6FA814",
                         yAxisID: "y",
                         label: this.$t("minPing"),
                     },
@@ -559,8 +559,8 @@ export default {
                         data: avgPingData,
                         fill: "origin",
                         tension: 0.2,
-                        borderColor: "#5CDD8B",
-                        backgroundColor: "#5CDD8B06",
+                        borderColor: "#0F766E",
+                        backgroundColor: "#0F766E06",
                         yAxisID: "y",
                         label: this.$t("avgPing"),
                     },
@@ -569,8 +569,8 @@ export default {
                         data: maxPingData,
                         fill: "origin",
                         tension: 0.2,
-                        borderColor: "#21b55a",
-                        backgroundColor: "#1E7A4214",
+                        borderColor: "#6B8BC4",
+                        backgroundColor: "#6B8BC414",
                         yAxisID: "y",
                         label: this.$t("maxPing"),
                     },

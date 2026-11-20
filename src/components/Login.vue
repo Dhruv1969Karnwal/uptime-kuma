@@ -100,11 +100,11 @@ export default {
     },
 
     mounted() {
-        document.title += " - Login";
+        document.title = "Login — Steadwatch";
     },
 
     unmounted() {
-        document.title = document.title.replace(" - Login", "");
+        document.title = "Steadwatch";
     },
 
     methods: {

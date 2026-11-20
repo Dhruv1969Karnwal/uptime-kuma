@@ -245,7 +245,7 @@ function getOpenApiDocument() {
         openApiDocument = createDocument({
             openapi: "3.1.0",
             info: {
-                title: "Uptime Kuma API",
+                title: "Steadwatch API",
                 version: checkVersion.version,
                 description: "Alpha. Requires an API key and the `API and MCP` setting to be enabled.",
             },
@@ -341,7 +341,7 @@ async function requireDocsAccess(request, response, next) {
         return;
     }
 
-    sendTextMessage(response, 401, "Log in to Uptime Kuma to view the API documentation.");
+    sendTextMessage(response, 401, "Log in to Steadwatch to view the API documentation.");
 }
 
 openAPIRouter.get("/api/openapi.json", requireApiAccess, (request, response) => {

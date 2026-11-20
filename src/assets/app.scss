@@ -34,7 +34,7 @@ body {
 h1,
 .h1 {
     font-size: clamp(1.875rem, 1.1vw + 1.5rem, var(--k-t-h1));
-    font-weight: var(--k-weight-medium);
+    font-weight: var(--k-weight-semibold);
     letter-spacing: var(--k-tracking-head);
     line-height: 1.18;
     margin-bottom: var(--k-s-4);
@@ -43,7 +43,7 @@ h1,
 h2,
 .h2 {
     font-size: clamp(1.5rem, 0.7vw + 1.35rem, var(--k-t-h2));
-    font-weight: var(--k-weight-medium);
+    font-weight: var(--k-weight-semibold);
     letter-spacing: var(--k-tracking-head);
     line-height: 1.2;
     margin-bottom: var(--k-s-3);
@@ -52,7 +52,7 @@ h2,
 h3,
 .h3 {
     font-size: var(--k-t-h3);
-    font-weight: var(--k-weight-medium);
+    font-weight: var(--k-weight-semibold);
     letter-spacing: -0.01em;
     line-height: 1.25;
 }
@@ -62,7 +62,7 @@ h4,
 h5,
 .h5 {
     font-size: var(--k-t-lead);
-    font-weight: var(--k-weight-medium);
+    font-weight: var(--k-weight-semibold);
     line-height: 1.3;
 }
 
@@ -198,7 +198,7 @@ hr {
     border-radius: var(--k-r-md);
 }
 
-// Primary is Kuma green: the label is always the dark ink, in both themes.
+// Primary is the restrained brand fill; the label is always its paired ink.
 .btn-primary {
     color: var(--k-on-accent);
     background-color: var(--k-accent);
@@ -256,7 +256,7 @@ hr {
 }
 
 .btn-warning {
-    color: var(--k-ink);
+    color: var(--k-on-warn);
     background-color: var(--k-warn-mark);
     border-color: var(--k-warn-mark);
 
@@ -264,7 +264,7 @@ hr {
     &:focus,
     &:active,
     &.active {
-        color: var(--k-ink);
+        color: var(--k-on-warn);
         background-color: color-mix(in srgb, var(--k-warn-mark) 88%, var(--k-ink));
         border-color: color-mix(in srgb, var(--k-warn-mark) 88%, var(--k-ink));
     }
@@ -293,7 +293,7 @@ hr {
     &:hover,
     &:focus,
     &:active {
-        color: #fff;
+        color: var(--k-on-danger);
         background-color: var(--k-down-mark);
         border-color: var(--k-down-mark);
     }
@@ -415,7 +415,7 @@ textarea.form-control {
 }
 
 .form-select {
-    background-image: escape-svg(url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='#5b6167' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m4 6 4 4 4-4'/></svg>"));
+    background-image: escape-svg(url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='#475569' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m4 6 4 4 4-4'/></svg>"));
     background-size: 16px 16px;
     padding-right: 2.25rem;
 }

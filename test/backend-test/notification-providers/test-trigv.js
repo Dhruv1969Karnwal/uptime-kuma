@@ -70,7 +70,7 @@ describe("Trigv notification provider", () => {
         await new Trigv().send(notification, "Test notification", null, null);
         assert.deepStrictEqual(post.mock.calls[0].arguments[1], {
             channel: "monitoring",
-            title: "Uptime Kuma",
+            title: "Steadwatch",
             description: "Test notification",
             level: "info",
         });

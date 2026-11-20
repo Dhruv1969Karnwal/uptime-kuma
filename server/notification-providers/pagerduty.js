@@ -13,21 +13,21 @@ class PagerDuty extends NotificationProvider {
     async send(notification, msg, monitorJSON = null, heartbeatJSON = null) {
         try {
             if (heartbeatJSON == null) {
-                const title = "Uptime Kuma Alert";
+                const title = "Steadwatch Alert";
                 const monitor = {
                     type: "ping",
-                    url: "Uptime Kuma Test Button",
+                    url: "Steadwatch Test Button",
                 };
                 return this.postNotification(notification, title, msg, monitor);
             }
 
             if (heartbeatJSON.status === UP) {
-                const title = "Uptime Kuma Monitor ✅ Up";
+                const title = "Steadwatch Monitor ✅ Up";
                 return this.postNotification(notification, title, heartbeatJSON.msg, monitorJSON, "resolve");
             }
 
             if (heartbeatJSON.status === DOWN) {
-                const title = "Uptime Kuma Monitor 🔴 Down";
+                const title = "Steadwatch Monitor 🔴 Down";
                 return this.postNotification(notification, title, heartbeatJSON.msg, monitorJSON, "trigger");
             }
         } catch (error) {
@@ -97,7 +97,7 @@ class PagerDuty extends NotificationProvider {
 
         const baseURL = await Settings.get("primaryBaseURL");
         if (baseURL && monitorInfo) {
-            options.client = "Uptime Kuma";
+            options.client = "Steadwatch";
             options.client_url = baseURL + getMonitorRelativeURL(monitorInfo.id);
         }
 

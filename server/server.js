@@ -1,5 +1,5 @@
 /*
- * Uptime Kuma Server
+ * Steadwatch Server
  * node "server/server.js"
  * DO NOT require("./server") in other modules, it likely creates circular dependency!
  */
@@ -21,7 +21,7 @@ import { initAdminFromEnv } from "./initial-admin";
 import { betterAuthSocketHandler } from "./socket-handlers/better-auth-socket-handler";
 import { loadEnvFile } from "node:process";
 
-console.log("Welcome to Uptime Kuma");
+console.log("Welcome to Steadwatch");
 
 initDayjs();
 
@@ -44,7 +44,7 @@ const requiredNodeVersionsComma = requiredNodeVersions
     .map((version) => version.trim())
     .join(", ");
 
-// Exit Uptime Kuma immediately if the Node.js version is banned
+// Exit Steadwatch immediately if the Node.js version is banned
 if (semver.satisfies(nodeVersion, bannedNodeVersions)) {
     console.error(
         "\x1b[31m%s\x1b[0m",
@@ -103,7 +103,7 @@ if (isDevEnv() || process.env.UPTIME_KUMA_DEBUG_INSPECTOR === "1") {
 }
 
 const checkVersion = require("./check-version");
-log.info("server", "Uptime Kuma Version:", checkVersion.version);
+log.info("server", "Steadwatch Version:", checkVersion.version);
 
 log.info("server", "Loading modules");
 

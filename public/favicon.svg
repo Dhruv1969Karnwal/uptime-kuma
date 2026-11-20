@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" role="img" aria-labelledby="steadwatch-favicon-title">
+    <title id="steadwatch-favicon-title">Steadwatch</title>
+    <style>
+        .steadwatch-favicon-plate { fill: #FFFFFF; stroke: #E2E8F0; }
+        .steadwatch-favicon-pulse { stroke: #2F4A7D; }
+        @media (prefers-color-scheme: dark) {
+            .steadwatch-favicon-plate { fill: #111A2B; stroke: #1F2A3D; }
+            .steadwatch-favicon-pulse { stroke: #8FA9E0; }
+        }
+    </style>
+    <rect class="steadwatch-favicon-plate" x="2.5" y="2.5" width="27" height="27" rx="7" stroke-width="1"/>
+    <path class="steadwatch-favicon-pulse" d="M7 16h4.6l2-4.4 3 9 2.3-6.2 1.4 1.6H25" fill="none" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

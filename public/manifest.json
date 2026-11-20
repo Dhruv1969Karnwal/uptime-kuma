@@ -1,21 +1,17 @@
 {
-    "name": "Uptime Kuma",
-    "short_name": "Uptime Kuma",
-    "description": "An easy-to-use self-hosted monitoring tool.",
-    "theme_color": "#5cdd8b",
+    "name": "Steadwatch",
+    "short_name": "Steadwatch",
+    "description": "Quiet, reliable uptime monitoring for websites, services, and status pages.",
+    "theme_color": "#2F4A7D",
     "start_url": "/",
-    "background_color": "#fff",
+    "background_color": "#F8FAFC",
     "display": "standalone",
     "icons": [
         {
-            "src": "icon-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "icon-512x512.png",
-            "sizes": "512x512",
-            "type": "image/png"
+            "src": "icon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml",
+            "purpose": "any maskable"
         }
     ],
     "shortcuts": [
@@ -26,9 +22,9 @@
             "url": "/dashboard",
             "icons": [
                 {
-                    "src": "icon-192x192.png",
-                    "sizes": "192x192",
-                    "type": "image/png"
+                    "src": "icon.svg",
+                    "sizes": "any",
+                    "type": "image/svg+xml"
                 }
             ]
         },
@@ -39,9 +35,9 @@
             "url": "/add",
             "icons": [
                 {
-                    "src": "icon-192x192.png",
-                    "sizes": "192x192",
-                    "type": "image/png"
+                    "src": "icon.svg",
+                    "sizes": "any",
+                    "type": "image/svg+xml"
                 }
             ]
         },
@@ -52,9 +48,9 @@
             "url": "/list",
             "icons": [
                 {
-                    "src": "icon-192x192.png",
-                    "sizes": "192x192",
-                    "type": "image/png"
+                    "src": "icon.svg",
+                    "sizes": "any",
+                    "type": "image/svg+xml"
                 }
             ]
         },
@@ -65,9 +61,9 @@
             "url": "/settings",
             "icons": [
                 {
-                    "src": "icon-192x192.png",
-                    "sizes": "192x192",
-                    "type": "image/png"
+                    "src": "icon.svg",
+                    "sizes": "any",
+                    "type": "image/svg+xml"
                 }
             ]
         },
@@ -78,9 +74,9 @@
             "url": "/maintenance",
             "icons": [
                 {
-                    "src": "icon-192x192.png",
-                    "sizes": "192x192",
-                    "type": "image/png"
+                    "src": "icon.svg",
+                    "sizes": "any",
+                    "type": "image/svg+xml"
                 }
             ]
         }

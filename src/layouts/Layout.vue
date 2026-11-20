@@ -17,7 +17,7 @@
         <!-- Desktop header -->
         <header v-if="!$root.isMobile" class="topbar">
             <router-link to="/dashboard" class="brand">
-                <img class="brand-mark" src="/icon.svg" alt="" width="30" height="30" />
+                <img class="brand-mark" :src="$root.isDark ? '/icon-dark.svg' : '/icon.svg'" alt="" width="30" height="30" />
                 <span class="brand-name">{{ $t("Uptime Kuma") }}</span>
             </router-link>
 
@@ -124,7 +124,7 @@
         <!-- Mobile header -->
         <header v-else class="topbar topbar-mobile">
             <router-link to="/dashboard" class="brand">
-                <img class="brand-mark" src="/icon.svg" alt="" width="28" height="28" />
+                <img class="brand-mark" :src="$root.isDark ? '/icon-dark.svg' : '/icon.svg'" alt="" width="28" height="28" />
                 <span class="brand-name">{{ $t("Uptime Kuma") }}</span>
             </router-link>
             <a
@@ -294,7 +294,7 @@ export default {
 
 .brand-name {
     font-size: var(--k-t-lead);
-    font-weight: var(--k-weight-medium);
+    font-weight: var(--k-weight-semibold);
     letter-spacing: var(--k-tracking-head);
     color: var(--k-ink);
     transition: color var(--k-dur-in) var(--k-ease);

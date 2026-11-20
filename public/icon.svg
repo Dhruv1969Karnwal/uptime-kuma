@@ -1,9 +1,23 @@
-<svg width="640" height="640" viewBox="0 0 640 640" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
-<g transform="matrix(1 0 0 1 320 320)">
-<linearGradient id="S3" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1 0 0 1 -319.99875 -320.0001577393)"  x1="259.78" y1="261.15" x2="463.85" y2="456.49">
-<stop stop-color="#5CDD8B"/>
-<stop offset="1" stop-color="#86E6A9"/>
-</linearGradient>
-<path style="stroke: rgb(242,242,242); stroke-opacity: 0.51; stroke-width: 200; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: url(#S3); fill-rule: nonzero; opacity: 1;"  transform=" translate(0, 0)" d="M 170.40125 -84.36016 C 224.09125 38.37984 224.09125 115.33984 170.40125 146.49984 C 89.85125000000001 193.23984000000002 -120.03875 207.48984000000002 -180.45875 135.63984 C -220.73875 87.73983999999999 -220.73875 14.399839999999998 -180.45875 -84.36016000000001 C -139.49875 -151.82016 -81.28875000000001 -185.55016 -5.828750000000014 -185.55016 C 69.64124999999999 -185.55016 128.38125 -151.82016000000002 170.40124999999998 -84.36016000000001 z" stroke-linecap="round" />
-</g>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="steadwatch-icon-title">
+    <title id="steadwatch-icon-title">Steadwatch</title>
+    <defs>
+        <linearGradient id="steadwatch-plate-light" x1="8" y1="6" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#FFFFFF"/>
+            <stop offset="1" stop-color="#F1F5F9"/>
+        </linearGradient>
+        <linearGradient id="steadwatch-plate-dark" x1="8" y1="6" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#172238"/>
+            <stop offset="1" stop-color="#0E1626"/>
+        </linearGradient>
+        <style>
+            .steadwatch-plate { fill: url(#steadwatch-plate-light); stroke: #E2E8F0; }
+            .steadwatch-pulse { stroke: #2F4A7D; }
+            @media (prefers-color-scheme: dark) {
+                .steadwatch-plate { fill: url(#steadwatch-plate-dark); stroke: #1F2A3D; }
+                .steadwatch-pulse { stroke: #8FA9E0; }
+            }
+        </style>
+    </defs>
+    <rect class="steadwatch-plate" x="4.5" y="4.5" width="55" height="55" rx="14" stroke-width="1"/>
+    <path class="steadwatch-pulse" d="M14 32h9.5l4.2-9.5 6.1 19 4.7-13.2 2.8 3.7H50" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

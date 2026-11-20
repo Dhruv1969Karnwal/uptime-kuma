@@ -16,57 +16,60 @@
 // =============================================================================
 
 // ---------------------------------------------------------------- brand + ink
-$k-accent: #5cdd8b; // Kuma green: fills only (buttons, active pill, live mark)
-$k-accent-strong: #0e7a45; // links, focus ring and emphasis on the light ground (5.6:1)
-$k-accent-strong-dark: #6fe3a1; // same role on the dark ground (10:1)
-$k-accent-hover: #4ed083; // filled-button hover (one step toward the ink)
-$k-on-accent: #0a2415; // label on Kuma green: 10.5:1, both themes
+$k-accent: #2f4a7d; // primary: fills only (buttons, active pill, live mark)
+$k-accent-strong: #0f766e; // accent: links, focus ring and emphasis on the light ground (5.2:1)
+$k-accent-strong-dark: #2dd4bf; // same role on the dark ground (10:1)
+$k-accent-hover: #263d68; // filled-button hover (one step toward the ink)
+$k-on-accent: #ffffff; // label on the primary fill: 8.8:1 (5.5:1 on the accent)
+$k-accent-dark: #8fa9e0; // dark-theme primary fill
+$k-accent-hover-dark: #a9bfea;
+$k-on-accent-dark: #0b1220; // label on the dark-theme primary fill: 8:1
 
-$k-ink: #1b1d1f; // near-black, never #000
-$k-ink-muted: #5b6167; // 5.9:1 on white, 5.4:1 on the light ground
-$k-ink-dark: #e7eaee; // dark theme text
-$k-ink-muted-dark: #a3acb8; // 8:1 on the dark surface
+$k-ink: #0f172a; // near-black, never #000
+$k-ink-muted: #475569; // 7.2:1 on the light ground, 7.6:1 on white
+$k-ink-dark: #e5e7eb; // dark theme text
+$k-ink-muted-dark: #9ca3af; // 6.9:1 on the dark surface
 
 // ---------------------------------------------------------------------- grounds
-$k-bg: #f4f4f1; // app ground (warm neutral, not pure white)
+$k-bg: #f8fafc; // app ground (slate, not pure white)
 $k-surface: #ffffff; // panels and cards: one step off the ground
-$k-surface-sunken: #ecece6; // inputs, table heads, sunken wells
-$k-surface-hover: #eeeeea; // row / control hover
-$k-surface-active: #e2efe6; // selected row (green-tinted, one step only)
+$k-surface-sunken: #f1f5f9; // inputs, table heads, sunken wells
+$k-surface-hover: #f1f5f9; // row / control hover
+$k-surface-active: #e8eef8; // selected row (blue-tinted, one step only)
 
-$k-bg-dark: #0b0e13; // lightness 0.05: near-black, not charcoal
-$k-surface-dark: #14181f;
-$k-surface-sunken-dark: #0f1319;
-$k-surface-hover-dark: #1a2029;
-$k-surface-active-dark: #17242c;
-$k-header-dark: #171d26;
+$k-bg-dark: #0b1220; // deep blue-slate, not pure black
+$k-surface-dark: #111a2b;
+$k-surface-sunken-dark: #0e1626;
+$k-surface-hover-dark: #172238;
+$k-surface-active-dark: #1a2942;
+$k-header-dark: #111a2b;
 
 // ------------------------------------------------------------------- hairlines
-$k-line: rgba(27, 29, 31, 0.12); // 12% of the ink
-$k-line-strong: rgba(27, 29, 31, 0.22);
-$k-line-dark: rgba(231, 234, 238, 0.12);
-$k-line-strong-dark: rgba(231, 234, 238, 0.24);
+$k-line: #e2e8f0; // decorative hairline / dividers
+$k-line-strong: #808b9e; // control boundary, >= 3:1 on light grounds
+$k-line-dark: #1f2a3d;
+$k-line-strong-dark: #5b6b85; // control boundary, >= 3:1 on dark grounds
 
 // ---------------------------------------------------------------------- status
 // Data colours. Each state is text + tint + mark: the colour never carries the
 // meaning alone, and every pair clears 4.5:1 against its own tint.
-$k-up: #0d6e3f;
-$k-up-mark: #17a25b;
-$k-up-tint: #e6f6ec;
-$k-down: #b02530;
-$k-down-mark: #d2323f;
-$k-down-tint: #fbeaec;
-$k-warn: #8a5000;
-$k-warn-mark: #e09000;
-$k-warn-tint: #fdf0da;
-$k-maint: #1d45b8;
-$k-maint-mark: #2f63e8;
-$k-maint-tint: #e7edfc;
+$k-up: #15803d;
+$k-up-mark: #15803d;
+$k-up-tint: #f0fdf4;
+$k-down: #b91c1c;
+$k-down-mark: #b91c1c;
+$k-down-tint: #fef2f2;
+$k-warn: #b45309;
+$k-warn-mark: #d97706;
+$k-warn-tint: #fffbeb;
+$k-maint: #1d4ed8;
+$k-maint-mark: #1d4ed8;
+$k-maint-tint: #eff6ff;
 
-$k-up-dark: #7ee2a8;
-$k-down-dark: #ff98a0;
-$k-warn-dark: #ffcb7d;
-$k-maint-dark: #a8c2ff;
+$k-up-dark: #4ade80;
+$k-down-dark: #f87171;
+$k-warn-dark: #fbbf24;
+$k-maint-dark: #93b4ff;
 
 // ---------------------------------------------------------------------- layout
 $k-gutter: 24px;
@@ -100,8 +103,8 @@ $h3-font-size: 1.3125rem; // 21
 $h4-font-size: 1.125rem; // 18
 $h5-font-size: 1rem; // 16
 $font-weight-base: 400;
-$font-weight-bold: 500; // nothing in the UI is bolder than 500
-$headings-font-weight: 500;
+$font-weight-bold: 600; // headings and the wordmark are semibold, nothing heavier
+$headings-font-weight: 600;
 $headings-line-height: 1.25;
 $headings-margin-bottom: 0.75rem;
 $line-height-base: 1.5;
@@ -185,7 +188,7 @@ $table-color: $k-ink;
 $table-bg: transparent;
 $table-border-color: $k-line;
 $table-head-border-color: $k-line;
-$table-accent-bg: rgba(27, 29, 31, 0.03);
+$table-accent-bg: rgba(15, 23, 42, 0.03);
 $table-hover-bg: $k-surface-hover;
 
 $dropdown-bg: $k-surface;

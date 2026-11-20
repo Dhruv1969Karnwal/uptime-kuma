@@ -608,10 +608,10 @@ export default {
             const token = (name, fallback) => cs.getPropertyValue(name).trim() || fallback;
             const colors = {
                 empty: token("--k-beat-empty", "rgba(128, 132, 138, 0.22)"),
-                down: token("--k-down-mark", "#d2323f"),
-                pending: token("--k-warn-mark", "#e09000"),
-                maintenance: token("--k-maint-mark", "#2f63e8"),
-                up: token("--k-up-mark", "#17a25b"),
+                down: token("--k-down-mark", "#b91c1c"),
+                pending: token("--k-warn-mark", "#d97706"),
+                maintenance: token("--k-maint-mark", "#1d4ed8"),
+                up: token("--k-up-mark", "#15803d"),
             };
 
             // Draw each beat

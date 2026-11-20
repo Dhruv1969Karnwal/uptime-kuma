@@ -249,7 +249,7 @@ test("API", async (t) => {
 
             assert.strictEqual(anonymousSpec.status, 401);
             assert.strictEqual(anonymousDocs.status, 401);
-            assert.match(anonymousDocsBody, /Log in to Uptime Kuma/);
+            assert.match(anonymousDocsBody, /Log in to Steadwatch/);
 
             const headers = { authorization: `Bearer ${apiKey}` };
             const specResponse = await fetch(`${baseUrl}/api/openapi.json`, { headers });

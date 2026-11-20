@@ -943,7 +943,7 @@ export default {
         },
 
         "config.title"(title) {
-            document.title = title;
+            document.title = title || "Steadwatch";
         },
 
         "$root.monitorList"() {

@@ -1,7 +1,7 @@
 ---
 name: ❓ Ask for help
 description: |
-  Submit any question related to Uptime Kuma
+  Submit any question related to Steadwatch
 #title: "[Help]"
 labels: ["help"]
 body:
@@ -31,7 +31,7 @@ body:
         You can find the full Security Policy **[HERE](https://github.com/louislam/uptime-kuma/security/policy)**.
       options:
         - label: |
-            I have read and agree to Uptime Kuma's [Security Policy](https://github.com/louislam/uptime-kuma/security/policy).
+            I have read and agree to Steadwatch's [Security Policy](https://github.com/louislam/uptime-kuma/security/policy).
           required: true
 
   - type: textarea
@@ -60,9 +60,9 @@ body:
   - type: input
     id: uptime-kuma-version
     attributes:
-      label: 🐻 Uptime-Kuma Version
+      label: Steadwatch Version
       description: |
-        What version of Uptime-Kuma are you running?
+        What version of Steadwatch are you running?
         Please do not provide Docker tags like `latest` or `1`.
       placeholder: |
         e.g., 1.23.16 or 2.0.0-beta.2
@@ -117,7 +117,7 @@ body:
             - macOS: APFS/ HFS+
             - Windows: NTFS/ReFS
           - **Storage Medium**: HDD/eMMC/SSD/NVMe
-        - **Uptime Kuma Setup**:
+        - **Steadwatch Setup**:
           - Number of monitors: `X`
     validations:
       required: true

@@ -14,7 +14,7 @@ class NotifyApp extends NotificationProvider {
         const okMsg = "Sent Successfully.";
 
         try {
-            let title = monitorJSON?.name || "Uptime Kuma";
+            let title = monitorJSON?.name || "Steadwatch";
             if (heartbeatJSON != null) {
                 title += ` is ${heartbeatJSON["status"] === UP ? "UP" : "DOWN"}`;
             }
