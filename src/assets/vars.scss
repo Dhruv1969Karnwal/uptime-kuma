@@ -139,8 +139,11 @@ $dark: $k-header-dark;
 $body-bg: $k-bg;
 $body-color: $k-ink;
 $text-muted: $k-ink-muted;
-$link-color: $k-accent-strong;
-$link-hover-color: $k-ink;
+// Bootstrap bakes these into --bs-link-color and into any component that asks for the
+// link colour (a chart control did, and with its own 0.7 opacity that landed at 3.06:1).
+// Real anchors are styled by assets/app.scss via --k-accent-strong instead.
+$link-color: $k-ink;
+$link-hover-color: $k-accent-strong;
 $link-decoration: none; // the motion layer draws underlines instead
 $border-color: $k-line;
 $gray-600: $k-ink-muted;

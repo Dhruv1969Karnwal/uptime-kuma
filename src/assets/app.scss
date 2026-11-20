@@ -952,6 +952,12 @@ $shadow-box-padding: var(--k-s-5);
     border-radius: var(--k-r-lg) !important;
 }
 
+/* Only the graphic is blurred while its data loads. Blurring the whole wrapper also
+   blurred the period control, which is text the operator reads mid-load (3.06:1). */
+.chart-wrapper.loading canvas {
+    filter: blur(10px);
+}
+
 .zoom-cursor {
     cursor: zoom-in;
 }

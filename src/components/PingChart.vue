@@ -660,8 +660,5 @@ export default {
 .chart-wrapper {
     margin-bottom: 0.5em;
 
-    &.loading {
-        filter: blur(10px);
-    }
 }
 </style>
