@@ -121,7 +121,7 @@ export default {
     transform: translateX(-50%);
 
     .tooltip-content {
-        background: rgba(17, 24, 39, 0.95);
+        background: var(--k-tooltip-bg);
         backdrop-filter: blur(8px);
         border: 1px solid rgba(75, 85, 99, 0.3);
         border-radius: 8px;
@@ -138,7 +138,7 @@ export default {
             transform: translateX(-50%);
             width: 14px;
             height: 2px;
-            background: rgba(17, 24, 39, 0.95);
+            background: var(--k-tooltip-bg);
             top: -1px;
         }
 
@@ -200,7 +200,7 @@ export default {
             transform: translateX(-50%) translateY(-50%) rotate(45deg);
             width: 8px;
             height: 8px;
-            background: rgba(17, 24, 39, 0.95);
+            background: var(--k-tooltip-bg);
             border: 1px solid rgba(75, 85, 99, 0.3);
             border-bottom: none;
             border-right: none;

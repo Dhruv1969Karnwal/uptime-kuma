@@ -830,18 +830,9 @@ export default {
         &.text-danger {
             color: var(--k-down);
 
-            .dark & {
-                color: var(--k-down);
-            }
-
             &:hover {
                 background-color: var(--k-down-mark) !important;
                 color: white !important;
-
-                .dark & {
-                    background-color: var(--k-down-mark) !important;
-                    color: white !important;
-                }
 
                 svg {
                     color: white !important;
