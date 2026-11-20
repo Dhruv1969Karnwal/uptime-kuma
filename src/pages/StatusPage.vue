@@ -485,8 +485,7 @@
 
             <div class="mb-4">
                 <div v-if="$root.publicGroupList.length === 0 && loadedData" class="text-center">
-                    <!-- 👀 Nothing here, please add a group or a monitor. -->
-                    👀 {{ $t("statusPageNothing") }}
+                    {{ $t("statusPageNothing") }}
                 </div>
 
                 <PublicGroupList
