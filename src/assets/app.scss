@@ -428,8 +428,10 @@ textarea.form-control {
 }
 
 .form-check-input {
-    width: 18px;
-    height: 18px;
+    // 16px was below the WCAG 2.2 target-size floor; 24px keeps the box legible in
+    // dense forms without shifting the baseline of its label.
+    width: 24px;
+    height: 24px;
     margin-top: 0.25rem;
     background-color: var(--k-surface);
     border: 1px solid var(--k-line-strong);
@@ -1020,7 +1022,6 @@ $shadow-box-padding: var(--k-s-5);
     }
 }
 
-// ---------------------------------------------------------------- localization
 
 // ---------------------------------------------------------------- corrections
 // Theme-level fixes for rules Bootstrap compiles into literals, found by measuring
@@ -1045,8 +1046,10 @@ $shadow-box-padding: var(--k-s-5);
 // dark label colour.
 .btn-check:checked + .btn-outline-primary,
 .btn-check:active + .btn-outline-primary,
+.btn-check:hover + .btn-outline-primary,
 .btn-outline-primary.active,
-.btn-outline-primary:active {
+.btn-outline-primary:active,
+.btn-outline-primary:hover {
     color: var(--k-on-accent);
     background-color: var(--k-accent);
     border-color: var(--k-accent);
@@ -1070,4 +1073,28 @@ $shadow-box-padding: var(--k-s-5);
 }
 
 // ---------------------------------------------------------------- localization
+// Bootstrap's .btn-group is a nowrap flex row, so a segmented control or a row of
+// action buttons pushed the whole document wider than the screen at tablet width
+// (measured +15px on /settings/appearance, +39px on /maintenance). Below the desktop
+// breakpoint the group wraps instead of widening the page.
+@media (max-width: 991.98px) {
+    .btn-group,
+    .buttons {
+        flex-wrap: wrap;
+    }
+
+    .btn-group > .btn {
+        flex: 0 0 auto;
+    }
+
+    // an error toast must not be wider than the screen it reports on
+    .toast-container {
+        max-width: calc(100vw - (var(--k-gutter) * 2));
+    }
+
+    .Vue-Toastification__toast {
+        max-width: 100%;
+    }
+}
+
 @import "localization.scss";
