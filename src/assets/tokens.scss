@@ -93,6 +93,14 @@
     --k-tooltip-muted: #d1d5db;
     --k-tooltip-line: rgba(203, 213, 225, 0.28);
 
+    // the status word inside that plate has to clear 4.5:1 against it, so it cannot
+    // reuse the page status colours (measured 3.16:1 and 2.18:1 when it did)
+    --k-tip-up: #7ee2a8;
+    --k-tip-down: #ff98a0;
+    --k-tip-pending: #ffcb7d;
+    --k-tip-maintenance: #a8c2ff;
+    --k-tip-neutral: #a3acb8;
+
     // ---- spacing: the only scale in the app (4 / 8)
     --k-s-1: 4px;
     --k-s-2: 8px;

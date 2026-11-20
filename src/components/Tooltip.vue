@@ -143,30 +143,28 @@ export default {
         }
 
         .tooltip-status {
-            font-size: 16px;
-            font-weight: 600;
+            font-size: var(--k-t-body);
+            font-weight: var(--k-weight-medium);
             margin-bottom: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
 
             &.status-up {
-                color: $primary;
+                color: var(--k-tip-up);
             }
 
             &.status-down {
-                color: $danger;
+                color: var(--k-tip-down);
             }
 
             &.status-pending {
-                color: $warning;
+                color: var(--k-tip-pending);
             }
 
             &.status-maintenance {
-                color: $maintenance;
+                color: var(--k-tip-maintenance);
             }
 
             &.status-empty {
-                color: $secondary-text;
+                color: var(--k-tip-neutral);
             }
         }
 
